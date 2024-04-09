@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 
 @ApplicationScoped
-@Path("/referencias")
+@Path("/roles")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RolApi extends AbstractGenericApi<Rol,String> {

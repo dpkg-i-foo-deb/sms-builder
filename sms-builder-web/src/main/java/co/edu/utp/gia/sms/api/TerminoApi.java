@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/referencias")
+@Path("/terminos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TerminoApi extends AbstractGenericApi<Termino,String> {
