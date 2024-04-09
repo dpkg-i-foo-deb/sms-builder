@@ -3,12 +3,14 @@ package co.edu.utp.gia.sms.beans;
 import co.edu.utp.gia.sms.dtos.ReferenciaDTO;
 import co.edu.utp.gia.sms.negocio.ProcesoService;
 import co.edu.utp.gia.sms.negocio.ReferenciaService;
+import jakarta.faces.annotation.ManagedProperty;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
+import org.primefaces.component.datatable.DataTable;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ import java.util.List;
 @ViewScoped
 @Log
 public class AplicarCriteriosReferenciasBean extends GenericBean<ReferenciaDTO> {
+    @Inject @ManagedProperty("#{param.referencia}")
+    protected String idReferencia;
+
     @Getter
     @Setter
     private List<ReferenciaDTO> referencias;
@@ -42,6 +47,18 @@ public class AplicarCriteriosReferenciasBean extends GenericBean<ReferenciaDTO> 
                         .anyMatch(referencia.getReferencia()::equals)
                 )
         );
+
+        goToReference();
+    }
+
+    private void goToReference() {
+        if( idReferencia != null && !idReferencia.isEmpty()) {
+            var referencia = referencias.stream().filter(r->r.getReferencia().getId().equals(idReferencia)).findFirst().orElse(null);
+            var index = referencias.indexOf(referencia);
+            final DataTable d = (DataTable) getFacesContext().getCurrentInstance().getViewRoot()
+                    .findComponent("tabla:revisionRadio");
+            d.setFirst(index);
+        }
     }
 
     public void seleccionarReferencia(ReferenciaDTO referencia) {

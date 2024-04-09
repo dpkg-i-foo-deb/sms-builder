@@ -10,6 +10,7 @@
 
 <ui:composition template="/WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
+		<p:linkButton href="/sms.xhtml?referencia=#{editarReferenciaBean.referencia.id}" icon="pi pi-arrow-left"></p:linkButton>
 		<h:form id="formReferencia" enctype="multipart/form-data" prependId="false">
 			<p:growl id="mensajes" showDetail="true" />
 			<div class="ui-card">
