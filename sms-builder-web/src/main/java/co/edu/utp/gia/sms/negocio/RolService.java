@@ -36,8 +36,20 @@ public class RolService extends AbstractGenericService<Rol, String> {
     }
 
     /**
+     * Permite remover un recurso a un rol
+     * @param id Id del recurso al que se desea adicionar un recurso
+     * @param idRecurso Recurso a ser removido
+     */
+    public Rol removeRecurso(String id,String idRecurso){
+        Rol rol = findOrThrow(id);
+        var recurso = rol.getRecursos().stream().filter( r -> r.getId().equals(idRecurso) ).findAny();
+        recurso.ifPresent(rol.getRecursos()::remove);
+        return rol;
+    }
+
+    /**
      * Permite obtener los roles que correspondan al nombre dado
-     * @param nombre
+     * @param nombre Nombre del rol que se desea buscar
      * @return List de los roles con el nombre dado.
      */
     public List<Rol> findByName(String nombre) {
