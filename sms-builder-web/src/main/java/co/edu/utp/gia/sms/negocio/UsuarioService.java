@@ -5,12 +5,9 @@ import co.edu.utp.gia.sms.entidades.EstadoUsuario;
 import co.edu.utp.gia.sms.entidades.Rol;
 import co.edu.utp.gia.sms.entidades.Usuario;
 import co.edu.utp.gia.sms.exceptions.LogicException;
-import co.edu.utp.gia.sms.query.seguridad.SeguridadUsuarioLogin;
 import co.edu.utp.gia.sms.seguridad.AuthenticationContext;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.SecurityContext;
-//import jakarta.security.enterprise.SecurityContext;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +58,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
      * @param usuario           Usuario a ser registrado
      * @param verificacionClave Variable de verficacion de clave
      */
-    public void create(Usuario usuario, String verificacionClave) {
+    public Usuario create(Usuario usuario, String verificacionClave) {
         if (usuario == null) {
             throw new LogicException(exceptionMessage.getDatosIncompletos());
         }
@@ -74,7 +71,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
         if (findByName(usuario.getNombreUsuario()).isPresent()) {
 			throw new LogicException(exceptionMessage.getRegistroExistente());
         }
-        super.save(usuario);
+        return super.save(usuario);
     }
 
     /**
@@ -95,7 +92,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
      * @param usuario           {@link Usuario} a ser actualizado
      * @param verificacionClave Variable de verficacion de clave
      */
-    public void update(Usuario usuario, String verificacionClave) {
+    public Usuario update(Usuario usuario, String verificacionClave) {
         if (usuario == null) {
             throw new LogicException(exceptionMessage.getDatosIncompletos());
         }
@@ -103,6 +100,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
             throw new LogicException(exceptionMessage.getClaveNoCoincide());
         }
         update(usuario);
+        return usuario;
     }
 
     /**
