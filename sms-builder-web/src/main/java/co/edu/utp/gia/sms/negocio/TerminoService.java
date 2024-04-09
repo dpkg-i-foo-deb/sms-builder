@@ -49,4 +49,16 @@ public class TerminoService extends AbstractGenericService<Termino, String>{
 		update(termino);
 		DB.storageManager.store(termino.getSinonimos());
     }
+
+	public Termino addSinonimo(String id, String sinonimo){
+		var termino = findOrThrow(id);
+		termino.getSinonimos().add(sinonimo);
+		return termino;
+	}
+
+	public Termino removeSinonimo(String id, String sinonimo){
+		var termino = findOrThrow(id);
+		termino.getSinonimos().remove(sinonimo);
+		return termino;
+	}
 }
