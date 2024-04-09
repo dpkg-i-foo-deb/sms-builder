@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.dtos.ReferenciaDTO;
 import co.edu.utp.gia.sms.entidades.Referencia;
+import co.edu.utp.gia.sms.entidades.TipoFuente;
 import co.edu.utp.gia.sms.negocio.ReferenciaService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -74,6 +75,12 @@ public class ReferenciaApi extends AbstractGenericApi<Referencia,String> {
         }
 
         return Response.ok(referencias,MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Path("/count")
+    public long size(@QueryParam("paso") String paso,@QueryParam("tipoFuente") TipoFuente tipoFuente,@QueryParam("repetidas") Boolean repetidas){
+        return  ((ReferenciaService) service).find(paso,tipoFuente,repetidas).size();
     }
 
     @POST

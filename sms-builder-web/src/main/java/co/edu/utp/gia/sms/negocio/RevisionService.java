@@ -96,7 +96,7 @@ public class RevisionService {
         return pasoActual;
     }
     /**
-     * Permite obterner el total de referencias de un determinado tipo de fuente en el paso seleccionado
+     * Permite obtener el total de referencias de un determinado tipo de fuente en el paso seleccionado
      * @param tipoFuente Tipo de la fuente de la que se desea contar las referencias
      * @return El número total de referencias de un determinado tipo de fuente en el paso seleccionado
      */
@@ -105,7 +105,7 @@ public class RevisionService {
     }
 
     /**
-     * Permite obterner el total de referencias repetidas de una revision
+     * Permite obtener el total de referencias repetidas de una revision
      * @return El número de referencias repetidas de la revision
      */
     public long totalReferenciasRepetidas(){

@@ -78,6 +78,18 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
                 .map(r -> new ReferenciaDTO(r, 0)).toList();
     }
 
+    public List<ReferenciaDTO> find(String paso, TipoFuente tipoFuente, Boolean repetidas){
+        Predicate<ReferenciaDTO> filter = r->true;
+        List<ReferenciaDTO> referencias = paso != null ? findByPaso(paso) : findAll();
+        if( tipoFuente != null ){
+            filter = filter.and( referencia -> referencia.getFuente().getTipo().equals(tipoFuente) );
+        }
+        if( repetidas != null ){
+            filter = filter.and(referencia -> referencia.getDuplicada().equals(repetidas));
+        }
+        return referencias.stream().filter(filter).toList();
+    }
+
     private List<ReferenciaDTO> findByPaso(PasoProceso paso) {
         return paso.getReferencias().stream()
                 .sorted(Comparator.comparing(Referencia::getNombre))
