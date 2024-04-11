@@ -87,7 +87,8 @@ COPY  target/quarkus-app/lib/ /deployments/lib/
 COPY  target/quarkus-app/*.jar /deployments/
 COPY  target/quarkus-app/app/ /deployments/app/
 COPY  target/quarkus-app/quarkus/ /deployments/quarkus/
-
+ADD cert.pem /deployments/
+ADD key.pem /deployments/
 EXPOSE 8080
 ENV JAVA_OPTS_APPEND="-D --add-opens java.base/java.io=ALL-UNNAMED -D --add-exports java.base/jdk.internal.misc=ALL-UNNAMED -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
