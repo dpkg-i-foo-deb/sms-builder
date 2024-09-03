@@ -19,6 +19,17 @@
 					<f:selectItem itemLabel="" itemValue=""/>
 					<f:selectItems value="#{registroTopicoBean.tags}"/>
 				</p:selectOneMenu>
+
+				<p:outputLabel value="Tags:" />
+				<p:selectManyMenu id="advanced" value="#{registroTopicoBean.tagsAsociados}"
+								  var="t" filter="true" filterMatchMode="contains" filterNormalize="true"
+								  showCheckbox="true" styleClass="manymenu-advanced">
+					<f:selectItems value="#{registroTopicoBean.tags}" var="tag" itemLabel="#{tag}" />
+					<p:column>
+						<h:outputText value="#{t}"/>
+					</p:column>
+				</p:selectManyMenu>
+
 				<f:facet name="footer">
 					<p:commandButton value="#{msg.botonAceptar}"
 						action="#{registroTopicoBean.registrar}" update=":msgs"  />

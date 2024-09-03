@@ -15,6 +15,7 @@ import lombok.Setter;
 import org.primefaces.PrimeFaces;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Clase controladora de interfaz web que se encarga de la gestión de tópicos.
@@ -33,6 +34,8 @@ public class RegistroTopicoBean extends GenericBean<Topico> {
     private String descripcion;
     @Getter @Setter
     private String id;
+    @Getter @Setter
+    private Collection<String> tagsAsociados;
     @Inject
     private TopicoService topicoService;
     @Inject
@@ -48,7 +51,10 @@ public class RegistroTopicoBean extends GenericBean<Topico> {
         Topico topico = null;
         id = getAndRemoveFromSession("idPregunta").toString();
         if (id != null) {
-            topico = topicoService.save(id, descripcion);
+            topico = new Topico();
+            topico.setDescripcion(descripcion);
+            topico.setTags(tagsAsociados);
+            topico = topicoService.save(id, topico);
         }
         PrimeFaces.current().dialog().closeDynamic(topico);
     }
@@ -57,7 +63,8 @@ public class RegistroTopicoBean extends GenericBean<Topico> {
     @Override
     public void inicializar() {
         // No se requiere inicializar ningún dato
-        tags = topicoService.getTags();
+        tags = topicoService.getTags().stream().distinct().toList();
+        tagsAsociados = new LinkedList<>();
     }
 
     public void validate(FacesContext facesContext, UIComponent component, java.lang.Object object){

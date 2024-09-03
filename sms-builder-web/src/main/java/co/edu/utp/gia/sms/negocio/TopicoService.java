@@ -33,11 +33,11 @@ public class TopicoService extends AbstractGenericService<Topico, String> {
 	 * Permite adicionar un topico a una pregunta
 	 * 
 	 * @param idPregunta  Identificador de la pregunta
-	 * @param descripcion Descripcion del topico que se desea adicionar
+	 * @param topico Topico que se desea adicionar
 	 */
-	public Topico save(String idPregunta, String descripcion) {
+	public Topico save(String idPregunta, Topico topico) {
 		Pregunta pregunta = preguntaService.findOrThrow(idPregunta);
-		Topico topico = new Topico(descripcion, pregunta);
+		topico.setPregunta(pregunta);
 		this.save(topico);
 		preguntaService.add(pregunta,topico);
 		return topico;

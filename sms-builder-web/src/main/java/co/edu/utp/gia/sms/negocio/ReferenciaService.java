@@ -242,7 +242,11 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
 
     private void asociciacionAutomaticamente(Referencia referencia) {
         Predicate<Topico> condicion = topico -> referencia.getTags().stream()
-                .anyMatch(topico.getDescripcion()::equalsIgnoreCase);
+                .anyMatch(
+                        tag->
+                        tag.equalsIgnoreCase(topico.getDescripcion()) ||
+                                topico.getTags().stream().anyMatch( tag::equalsIgnoreCase )
+                );
         revisionService.get().getTopicos().stream()
                 .filter( condicion )
                 .forEach(topico -> addTopico(referencia.getId(), topico.getId()));
