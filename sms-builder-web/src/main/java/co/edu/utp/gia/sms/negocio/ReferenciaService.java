@@ -174,6 +174,7 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
         Referencia referencia = findOrThrow(id);
         if (referencia != null) {
             referencia.setSpsid(spsid);
+            DB.storageManager.store(referencia);
         }
     }
 
@@ -237,10 +238,13 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
     }
 
     public void asociciacionAutomatica() {
-        dataProvider.get().forEach(this::asociciacionAutomaticamente);
+        revisionService.getPasoActual().getReferencias().forEach(this::asociciacionAutomaticamente);
     }
 
     private void asociciacionAutomaticamente(Referencia referencia) {
+        if( referencia.getTags() == null ){
+            return;
+        }
         Predicate<Topico> condicion = topico -> referencia.getTags().stream()
                 .anyMatch(
                         tag->
