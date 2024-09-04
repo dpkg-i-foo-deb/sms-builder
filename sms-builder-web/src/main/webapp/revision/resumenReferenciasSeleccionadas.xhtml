@@ -11,7 +11,14 @@
 	<ui:define name="content">
 		<h:form id="tabla" enctype="multipart/form-data" prependId="false">
 			<p:growl id="mensajes" showDetail="true" />
-
+			<p:commandLink >
+				<p:graphicImage name="/imagenes/csv.png" width="24" />
+				<p:dataExporter type="csv" target="resumenReferencias"
+								fileName="referencias" />
+			</p:commandLink>
+			<h:commandLink action="#{resumenReferenciasSeleccionadasBean.exportToRIS}">
+				<p:graphicImage name="/imagenes/ris.png" width="24" />
+			</h:commandLink>
 			<p:dataTable id="resumenReferencias"
 				value="#{resumenReferenciasSeleccionadasBean.referencias}"
 				var="referencia" paginator="true" rows="1"
@@ -19,70 +26,7 @@
 				currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords}"
 				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {CurrentPageReport}">
 
-
-
-				<f:facet name="footer">
-					<!-- Se inactivan por bug temporanmente -->
-					<h:commandLink rendered="false">
-						<p:graphicImage name="/imagenes/excel.png" width="24" />
-						<p:dataExporter type="xlsxstream" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink rendered="false">
-						<p:graphicImage name="/imagenes/pdf.png" width="24" />
-						<p:dataExporter type="pdf" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink>
-						<p:graphicImage name="/imagenes/csv.png" width="24" />
-						<p:dataExporter type="csv" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink rendered="false">
-						<p:graphicImage name="/imagenes/xml.png" width="24" />
-						<p:dataExporter type="xml" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink action="#{resumenReferenciasSeleccionadasBean.exportToRIS}">
-						<p:graphicImage name="/imagenes/ris.png" width="24" />
-					</h:commandLink>
-
-				</f:facet>
-				
 				<f:facet name="header">
-
-					<h:commandLink rendered="false">
-						<p:graphicImage name="/imagenes/excel.png" width="24" />
-						<p:dataExporter type="xlsxstream" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink rendered="false">
-						<p:graphicImage name="/imagenes/pdf.png" width="24" />
-						<p:dataExporter type="pdf" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink >
-						<p:graphicImage name="/imagenes/csv.png" width="24" />
-						<p:dataExporter type="csv" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink rendered="false">
-						<p:graphicImage name="/imagenes/xml.png" width="24" />
-						<p:dataExporter type="xml" target="resumenReferencias"
-							fileName="referencias" />
-					</h:commandLink>
-
-					<h:commandLink action="#{resumenReferenciasSeleccionadasBean.exportToRIS}">
-						<p:graphicImage name="/imagenes/ris.png" width="24" />
-					</h:commandLink>
-					<br />
 					<p:commandButton value="#{msg.botonNombrar}" action="#{resumenReferenciasSeleccionadasBean.nombrar}" update="tabla" />
 					<p:commandButton value="#{msg.botonLimpiar}" action="#{resumenReferenciasSeleccionadasBean.limpiar}" update="tabla" />
 					<p:commandButton value="#{msg.botonSiguientePaso}" action="#{resumenReferenciasSeleccionadasBean.siguientePaso}" update="tabla" />
