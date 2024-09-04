@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DialogFrameworkOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,10 +74,16 @@ public class RegistroPreguntaBean extends GenericBeanNew<Pregunta,String> {
     }
 
     public void adicionarTopico(String id) {
-        Map<String, Object> options = new HashMap<>();
-        options.put("resizable", false);
-        options.put("draggable", false);
-        options.put("modal", true);
+
+        var options = DialogFrameworkOptions.builder()
+                .resizable(false)
+                .draggable(false)
+                .modal(true)
+                .width("70%")
+//                .contentHeight("100%")
+                .contentWidth("100%")
+                .blockScroll(true)
+                .build();
         addToSession("idPregunta", id);
         PrimeFaces.current().dialog().openDynamic("/pregunta/registroTopico", options, null);
     }

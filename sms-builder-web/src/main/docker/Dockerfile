@@ -28,3 +28,4 @@ COPY --from=build /app/target/sms-builder-web-microbundle.jar ./
 CMD ["sh","run.sh"]
 
 EXPOSE 8080
+EXPOSE 8181

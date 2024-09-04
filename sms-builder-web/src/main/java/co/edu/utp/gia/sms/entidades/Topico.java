@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Entity implementation class for Entity: Topico, el cual hace referencia a un
@@ -31,6 +30,9 @@ public class Topico implements Entidad<String> {
     @Setter
     @NonNull
     private Pregunta Pregunta;
+
+    @Setter
+    private Collection<String> tags = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
