@@ -36,26 +36,35 @@ public class ReferenciasTopicoBean extends EstaditicaDatoDTOBaseBean {
         setEjeY("# "+getMessage(MessageConstants.SPS));
         setTitulo(getEjeY() + " - " + getEjeX());
         if (getRevision() != null) {
-            topicos = revisionService.getTopicos();
-            topicosSeleccionados = new ArrayList<>( topicos );
             onChangePregunta();
         }
     }
 
     public void onChangePregunta() {
         List<DatoDTO> datos;
+        topicos = revisionService.getTopicos();
+        topicosSeleccionados = topicosSeleccionados == null ? new ArrayList<>( topicos ): topicosSeleccionados;
         if (codigo != null) {
             datos = getEstadisticaService().obtenerReferenciasTopico(codigo);
         } else {
             datos = getEstadisticaService().obtenerReferenciasTopico();
         }
-        Predicate<DatoDTO> filtro = dato->topicosSeleccionados.stream().anyMatch( t->dato.getEtiqueta().endsWith("-"+t.getDescripcion() ) );
-        datos = datos.stream().filter( filtro ).toList();
-        datos.forEach(
-                d->System.out.println(d.getEtiqueta())
+        actualizarTopicos(datos);
+        Predicate<DatoDTO> filtro = dato->topicosSeleccionados.stream().anyMatch(
+                t->dato.getEtiqueta().equalsIgnoreCase(t.getPregunta().getCodigo()+"-"+t.getDescripcion() )
         );
+        datos = datos.stream().filter( filtro ).toList();
         setDatos(datos);
         crearModelo();
+    }
+
+    private void actualizarTopicos(List<DatoDTO> datos) {
+        Predicate<Topico> filtroTopicos = topico -> datos.stream().anyMatch(
+                dato->dato.getEtiqueta().equalsIgnoreCase( topico.getPregunta().getCodigo()+"-"+topico.getDescripcion() )
+        );
+        Predicate<Topico> filtroTopicosSeleccionados = topicos::contains;
+        topicos = topicos.stream().filter(filtroTopicos).toList();
+        topicosSeleccionados = new ArrayList<>(topicosSeleccionados.stream().filter(filtroTopicosSeleccionados).toList());
     }
 
 

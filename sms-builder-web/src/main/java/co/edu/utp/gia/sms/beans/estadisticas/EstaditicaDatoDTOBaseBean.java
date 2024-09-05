@@ -32,11 +32,10 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 13/06/2019
  */
+@Getter
 public abstract class EstaditicaDatoDTOBaseBean extends EstadisticaBean {
-    @Getter
     @Setter
     private List<DatoDTO> datos;
-    @Getter
     private final Map<String, SerieDatos> datosSeries;
 
 
@@ -112,6 +111,7 @@ public abstract class EstaditicaDatoDTOBaseBean extends EstadisticaBean {
         PieChartModel model = new PieChartModel();
         PieChartOptions options = new PieChartOptions();
         //datosSeries = new HashMap<>();
+        datosSeries.clear();
         model.setData(createData(options));
 
         model.setOptions(options);
@@ -122,6 +122,7 @@ public abstract class EstaditicaDatoDTOBaseBean extends EstadisticaBean {
         BarChartModel model = new BarChartModel();
         BarChartOptions options = new BarChartOptions();
         //datosSeries = new HashMap<>();
+        datosSeries.clear();
         model.setData(createData(options));
 
         CartesianScales cScales = new CartesianScales();
