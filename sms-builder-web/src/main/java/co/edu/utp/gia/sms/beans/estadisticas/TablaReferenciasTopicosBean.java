@@ -15,6 +15,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,6 +52,8 @@ public class TablaReferenciasTopicosBean extends AbstractRevisionBean {
     private List<String> years;
     @Getter @Setter
     private List<Topico> topicos;
+    @Getter @Setter
+    private List<Topico> topicosSeleccionados;
 
     @Getter @Setter
     private String idAtributoCalidad;
@@ -66,6 +69,7 @@ public class TablaReferenciasTopicosBean extends AbstractRevisionBean {
             referencias = referenciaService.findByPaso(getPasoActual().getId())
                     .stream().sorted( Comparator.comparing(ReferenciaDTO::getSpsid) ).collect(Collectors.toList());
             topicos = revisionService.getTopicos();
+            topicosSeleccionados = new ArrayList<>( topicos );
             years = estadisticaService.obtenerYears( );
         }
     }

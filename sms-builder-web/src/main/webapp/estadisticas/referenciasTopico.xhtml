@@ -26,6 +26,17 @@
 					<p:ajax update="grafica"
 						listener="#{referenciasTopicoBean.onChangeTipoGrafica}" />
 				</p:selectOneMenu>
+				<p:outputLabel for="topicos" value="#{msg.etiquetaTopicos}" />
+				<p:selectManyMenu id="topicos" value="#{referenciasTopicoBean.topicosSeleccionados}"
+								  var="t" filter="true" filterMatchMode="contains" filterNormalize="true"
+								  showCheckbox="true" styleClass="manymenu-advanced" converter="topicoConverter">
+					<f:selectItems value="#{referenciasTopicoBean.topicos}" var="topico" itemLabel="#{topico.descripcion}" />
+					<p:column>
+						<h:outputText value="#{t.descripcion}" />
+					</p:column>
+					<p:ajax event="itemSelect" listener="#{referenciasTopicoBean.onChangePregunta}" update="grafica, tablaDatos" />
+					<p:ajax event="itemUnselect" listener="#{referenciasTopicoBean.onChangePregunta}" update="grafica, tablaDatos" />
+				</p:selectManyMenu>
 			</p:panelGrid>
 			<p:pieChart id="graficaPie" rendered="#{referenciasTopicoBean.tipoGrafica.equals('pie')}"
 						model="#{referenciasTopicoBean.pieModel}" style="height:300px" />

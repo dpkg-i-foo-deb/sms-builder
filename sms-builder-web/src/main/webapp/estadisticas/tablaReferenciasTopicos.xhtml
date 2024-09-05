@@ -26,10 +26,21 @@
 					<f:selectItems value="#{tablaReferenciasTopicosBean.listaValores}" var="evaluacion" itemValue="#{evaluacion}" itemLabel="#{evaluacion}" />
 					<p:ajax listener="#{tablaReferenciasTopicosBean.consultarReferencias}" update="tabla" />
 				</p:selectOneMenu>
+				<p:outputLabel for="topicos" value="#{msg.etiquetaTopicos}" />
+				<p:selectManyMenu id="topicos" value="#{tablaReferenciasTopicosBean.topicosSeleccionados}"
+								  var="t" filter="true" filterMatchMode="contains" filterNormalize="true"
+								  showCheckbox="true" styleClass="manymenu-advanced" converter="topicoConverter">
+					<f:selectItems value="#{tablaReferenciasTopicosBean.topicos}" var="topico" itemLabel="#{topico.descripcion}" />
+					<p:column>
+						<h:outputText value="#{t.descripcion}" />
+					</p:column>
+					<p:ajax event="itemSelect" update="resumenReferencias2, resumenReferencias" />
+					<p:ajax event="itemUnselect" update="resumenReferencias2, resumenReferencias" />
+				</p:selectManyMenu>
 			</p:panelGrid>
 			
 			<p:dataTable id="resumenReferencias2"
-				value="#{tablaReferenciasTopicosBean.topicos}" var="topico">
+				value="#{tablaReferenciasTopicosBean.topicosSeleccionados}" var="topico">
 
 				<f:facet name="footer">
 
@@ -185,7 +196,7 @@
 					<h:outputText value="#{referencia.nombre}" />
 				</p:column>
 
-				<p:columns value="#{tablaReferenciasTopicosBean.topicos}"
+				<p:columns value="#{tablaReferenciasTopicosBean.topicosSeleccionados}"
 					var="topico">
 					<f:facet name="header">
 						<h:outputText

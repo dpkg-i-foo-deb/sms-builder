@@ -1,10 +1,16 @@
 package co.edu.utp.gia.sms.beans.estadisticas;
 
 import co.edu.utp.gia.sms.beans.util.MessageConstants;
+import co.edu.utp.gia.sms.dtos.DatoDTO;
+import co.edu.utp.gia.sms.entidades.Topico;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Clase controladora de interfaz web que se encarga de presentar los datos estadísticos de los tópicos.
@@ -18,26 +24,37 @@ import lombok.Setter;
  */
 @Named
 @ViewScoped
+@Getter @Setter
 public class ReferenciasTopicoBean extends EstaditicaDatoDTOBaseBean {
-    @Getter
-    @Setter
     private String codigo;
+    private List<Topico> topicos;
+    private List<Topico> topicosSeleccionados;
 
     public void inicializar() {
+        System.out.println("INICAILIZANDO");
         setEjeX(getMessage(MessageConstants.TOPICOS));
         setEjeY("# "+getMessage(MessageConstants.SPS));
         setTitulo(getEjeY() + " - " + getEjeX());
         if (getRevision() != null) {
+            topicos = revisionService.getTopicos();
+            topicosSeleccionados = new ArrayList<>( topicos );
             onChangePregunta();
         }
     }
 
     public void onChangePregunta() {
+        List<DatoDTO> datos;
         if (codigo != null) {
-            setDatos(getEstadisticaService().obtenerReferenciasTopico(codigo));
+            datos = getEstadisticaService().obtenerReferenciasTopico(codigo);
         } else {
-            setDatos(getEstadisticaService().obtenerReferenciasTopico());
+            datos = getEstadisticaService().obtenerReferenciasTopico();
         }
+        Predicate<DatoDTO> filtro = dato->topicosSeleccionados.stream().anyMatch( t->dato.getEtiqueta().endsWith("-"+t.getDescripcion() ) );
+        datos = datos.stream().filter( filtro ).toList();
+        datos.forEach(
+                d->System.out.println(d.getEtiqueta())
+        );
+        setDatos(datos);
         crearModelo();
     }
 
