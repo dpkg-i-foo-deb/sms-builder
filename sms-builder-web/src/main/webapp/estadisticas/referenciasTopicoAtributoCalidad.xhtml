@@ -19,6 +19,17 @@
 					<p:ajax update="grafica,tablaDatos"
 						listener="#{referenciasTopicoAtributoCalidadBean.onChangePregunta}" />
 				</p:selectOneMenu>
+				<p:outputLabel for="topicos" value="#{msg.etiquetaTopicos}" />
+				<p:selectManyMenu id="topicos" value="#{referenciasTopicoAtributoCalidadBean.topicosSeleccionados}"
+								  var="t" filter="true" filterMatchMode="contains" filterNormalize="true"
+								  showCheckbox="true" styleClass="manymenu-advanced" >
+					<f:selectItems value="#{referenciasTopicoAtributoCalidadBean.topicos}" var="topico" itemLabel="#{topico}" />
+					<p:column>
+						<h:outputText value="#{t}" />
+					</p:column>
+					<p:ajax event="itemSelect" listener="#{referenciasTopicoAtributoCalidadBean.onChangePregunta}" update="grafica, tablaDatos" />
+					<p:ajax event="itemUnselect" listener="#{referenciasTopicoAtributoCalidadBean.onChangePregunta}" update="grafica, tablaDatos" />
+				</p:selectManyMenu>
 			</p:panelGrid>
 
 
@@ -36,6 +47,12 @@
 			<p:dataTable id="tablaDatos" value="#{referenciasTopicoAtributoCalidadBean.topicos}"
 				var="topico">
 				<f:facet name="header">
+					<p:commandLink>
+						<p:graphicImage name="/imagenes/csv.png" width="24" />
+						<p:dataExporter type="csv" target="tablaDatos"
+										fileName="tablaDatos_#{referenciasTopicoAtributoCalidadBean.titulo}" />
+					</p:commandLink>
+					 -
 					<h:outputText value="#{referenciasTopicoAtributoCalidadBean.titulo}" />
 				</f:facet>
 				<p:column headerText="#{referenciasTopicoAtributoCalidadBean.ejeX}">
@@ -44,34 +61,6 @@
 				<p:columns value="#{referenciasTopicoAtributoCalidadBean.series}" var="serie" headerText="#{serie.etiqueta}" >
 					<h:outputText value="#{serie.get(topico)}" />
 				</p:columns>
-
-				<f:facet name="footer">
-
-					<h:commandLink>
-						<p:graphicImage name="/imagenes/excel.png" width="24" />
-						<p:dataExporter type="xlsxstream" target="tablaDatos"
-							fileName="tablaDatos_#{referenciasTopicoAtributoCalidadBean.titulo}" />
-					</h:commandLink>
-
-					<h:commandLink>
-						<p:graphicImage name="/imagenes/pdf.png" width="24" />
-						<p:dataExporter type="pdf" target="tablaDatos"
-							fileName="tablaDatos_#{referenciasTopicoAtributoCalidadBean.titulo}" />
-					</h:commandLink>
-
-					<h:commandLink>
-						<p:graphicImage name="/imagenes/csv.png" width="24" />
-						<p:dataExporter type="csv" target="tablaDatos"
-							fileName="tablaDatos_#{referenciasTopicoAtributoCalidadBean.titulo}" />
-					</h:commandLink>
-
-					<h:commandLink>
-						<p:graphicImage name="/imagenes/xml.png" width="24" />
-						<p:dataExporter type="xml" target="tablaDatos"
-							fileName="tablaDatos_#{referenciasTopicoAtributoCalidadBean.titulo}" />
-					</h:commandLink>
-
-				</f:facet>
 			</p:dataTable>
 		</h:form>
 	</ui:define>

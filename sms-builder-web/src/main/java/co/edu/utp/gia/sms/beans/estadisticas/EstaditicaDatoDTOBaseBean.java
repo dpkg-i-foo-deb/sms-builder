@@ -111,7 +111,6 @@ public abstract class EstaditicaDatoDTOBaseBean extends EstadisticaBean {
         PieChartModel model = new PieChartModel();
         PieChartOptions options = new PieChartOptions();
         //datosSeries = new HashMap<>();
-        datosSeries.clear();
         model.setData(createData(options));
 
         model.setOptions(options);
