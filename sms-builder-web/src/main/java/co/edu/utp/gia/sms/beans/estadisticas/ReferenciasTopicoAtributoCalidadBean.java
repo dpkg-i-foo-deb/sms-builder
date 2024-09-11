@@ -35,6 +35,8 @@ public class ReferenciasTopicoAtributoCalidadBean extends EstaditicaSerieDatoDTO
     @Getter
     @Setter
     private List<String> topicos;
+    @Getter @Setter
+    private List<String> topicosSeleccionados;
 
     public void inicializar() {
         setEjeX(getMessage(MessageConstants.TOPICOS));
@@ -70,9 +72,7 @@ public class ReferenciasTopicoAtributoCalidadBean extends EstaditicaSerieDatoDTO
     }
 
     private void inicializarTopicos(List<DatoDTO> datos) {
-        topicos = new ArrayList<>();
-        datos.forEach(y -> topicos.add(y.getEtiqueta()));
+        topicos = datos.stream().map(DatoDTO::getEtiqueta).toList();
+        topicosSeleccionados = topicosSeleccionados == null ? new ArrayList<>( topicos ): topicosSeleccionados;
     }
-
-
 }
