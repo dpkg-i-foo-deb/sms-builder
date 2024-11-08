@@ -47,3 +47,14 @@ or
 ```
 $ sh smsbuilderweb.sh
 ```
+
+## URL
+
+https://localhost:8443
+
+https://localhost:8443/q/swagger-ui/
+
+https://localhost:8443/q/openapi
+
+https://localhost:8443/q/openapi?format=json
+
