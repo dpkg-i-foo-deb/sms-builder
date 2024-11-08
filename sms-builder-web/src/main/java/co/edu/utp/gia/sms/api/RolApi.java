@@ -3,6 +3,7 @@ package co.edu.utp.gia.sms.api;
 import co.edu.utp.gia.sms.entidades.Recurso;
 import co.edu.utp.gia.sms.entidades.Rol;
 import co.edu.utp.gia.sms.negocio.RolService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -15,6 +16,7 @@ import java.util.Collection;
 @Path("/roles")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class RolApi extends AbstractGenericApi<Rol,String> {
 
     public RolApi() {

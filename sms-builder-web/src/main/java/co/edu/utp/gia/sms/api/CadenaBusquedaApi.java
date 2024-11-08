@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.entidades.CadenaBusqueda;
 import co.edu.utp.gia.sms.negocio.CadenaBusquedaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/cadenasbusqueda")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class CadenaBusquedaApi extends AbstractGenericApi<CadenaBusqueda,String> {
 
     public CadenaBusquedaApi() {

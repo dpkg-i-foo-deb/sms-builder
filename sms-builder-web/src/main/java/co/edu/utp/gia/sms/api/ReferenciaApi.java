@@ -4,6 +4,7 @@ import co.edu.utp.gia.sms.dtos.ReferenciaDTO;
 import co.edu.utp.gia.sms.entidades.Referencia;
 import co.edu.utp.gia.sms.entidades.TipoFuente;
 import co.edu.utp.gia.sms.negocio.ReferenciaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.util.List;
 @Path("/referencias")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class ReferenciaApi extends AbstractGenericApi<Referencia,String> {
 
     public ReferenciaApi() {

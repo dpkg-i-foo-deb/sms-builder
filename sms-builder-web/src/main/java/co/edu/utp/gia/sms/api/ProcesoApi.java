@@ -5,6 +5,7 @@ import co.edu.utp.gia.sms.entidades.EvaluacionCualitativa;
 import co.edu.utp.gia.sms.entidades.PasoProceso;
 import co.edu.utp.gia.sms.negocio.ProcesoService;
 import co.edu.utp.gia.sms.negocio.ReferenciaService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @Path("/pasosproceso")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class ProcesoApi extends AbstractGenericApi<PasoProceso,String> {
 
     private ReferenciaService referenciaService;

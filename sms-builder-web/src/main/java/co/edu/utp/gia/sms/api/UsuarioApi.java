@@ -3,6 +3,7 @@ package co.edu.utp.gia.sms.api;
 import co.edu.utp.gia.sms.dtos.UsuarioDTO;
 import co.edu.utp.gia.sms.entidades.Usuario;
 import co.edu.utp.gia.sms.negocio.UsuarioService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/usuarios")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class UsuarioApi extends AbstractGenericApi<Usuario,String>{
 
     private UsuarioService service;
@@ -22,6 +24,7 @@ public class UsuarioApi extends AbstractGenericApi<Usuario,String>{
 
     @Inject
     public UsuarioApi(UsuarioService service) {
+        super(service);
         this.service = service;
     }
 

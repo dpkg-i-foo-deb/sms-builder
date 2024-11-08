@@ -4,6 +4,7 @@ import co.edu.utp.gia.sms.entidades.Pregunta;
 import co.edu.utp.gia.sms.entidades.Topico;
 import co.edu.utp.gia.sms.negocio.PreguntaService;
 import co.edu.utp.gia.sms.negocio.TopicoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -14,6 +15,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/preguntas")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class PreguntaApi extends AbstractGenericApi<Pregunta,String> {
 
     private TopicoService topicoService;

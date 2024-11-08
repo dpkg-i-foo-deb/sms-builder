@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.entidades.EvaluacionCalidad;
 import co.edu.utp.gia.sms.negocio.EvaluacionCalidadService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/evaluacionescalidad")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class EvaluacionCalidadApi extends AbstractGenericApi<EvaluacionCalidad,String> {
 
     public EvaluacionCalidadApi() {

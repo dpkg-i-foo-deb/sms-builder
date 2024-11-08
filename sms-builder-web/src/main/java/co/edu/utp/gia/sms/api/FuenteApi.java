@@ -3,6 +3,7 @@ package co.edu.utp.gia.sms.api;
 import co.edu.utp.gia.sms.entidades.Fuente;
 import co.edu.utp.gia.sms.entidades.TipoFuente;
 import co.edu.utp.gia.sms.negocio.FuenteService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -15,6 +16,7 @@ import java.util.function.Predicate;
 @Path("/fuestes")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class FuenteApi extends AbstractGenericApi<Fuente,String> {
 
     public FuenteApi() {

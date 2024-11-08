@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.entidades.Termino;
 import co.edu.utp.gia.sms.negocio.TerminoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @Path("/terminos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class TerminoApi extends AbstractGenericApi<Termino,String> {
 
     public TerminoApi() {

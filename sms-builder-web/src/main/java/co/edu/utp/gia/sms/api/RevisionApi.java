@@ -3,6 +3,7 @@ package co.edu.utp.gia.sms.api;
 import co.edu.utp.gia.sms.dtos.RevisionDTO;
 import co.edu.utp.gia.sms.negocio.ProcesoService;
 import co.edu.utp.gia.sms.negocio.RevisionService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/revision")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@RolesAllowed({ "Usuario", "Administrador" })
 public class RevisionApi  {
 
     private RevisionService service;
