@@ -5,6 +5,7 @@ import co.edu.utp.gia.sms.beans.util.MessageConstants;
 import co.edu.utp.gia.sms.entidades.EstadoUsuario;
 import co.edu.utp.gia.sms.entidades.Usuario;
 import co.edu.utp.gia.sms.negocio.UsuarioService;
+import co.edu.utp.gia.sms.util.PasswordUtil;
 import jakarta.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
@@ -122,6 +123,8 @@ public abstract class UsuarioBean extends AbstractBean {
      */
     public String registrar() {
         try {
+            var user = getUsuario();
+            user.setClave(PasswordUtil.hashedPassword(user.getClave()));
             usuarioService.create(getUsuario(), verificacionClave);
             setUsuario(newUsuario());
             verificacionClave = "";
@@ -168,6 +171,7 @@ public abstract class UsuarioBean extends AbstractBean {
     private boolean actualizar(Usuario usuario) {
         boolean exito = false;
         try {
+            usuario.setClave(PasswordUtil.hashedPassword(usuario.getClave()));
             usuarioService.update(usuario, verificacionClaveEdit);
             exito = true;
             verificacionClaveEdit = "";

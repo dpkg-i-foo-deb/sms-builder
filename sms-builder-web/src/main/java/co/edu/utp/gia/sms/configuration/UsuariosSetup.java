@@ -4,6 +4,7 @@ import co.edu.utp.gia.sms.entidades.Usuario;
 import co.edu.utp.gia.sms.negocio.RolService;
 import co.edu.utp.gia.sms.negocio.UsuarioService;
 
+import co.edu.utp.gia.sms.util.PasswordUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -38,11 +39,11 @@ public class UsuariosSetup implements SetupInterface{
         if (usuarioBO.get().isEmpty()) {
             var usuario = new Usuario();
             usuario.setNombreUsuario("root");
-            usuario.setClave("12345");
+            usuario.setClave(PasswordUtil.hashedPassword("12345"));
             usuario.setRoles(List.copyOf(rolBO.get()));
             usuario.setNombre("root");
             usuario.setEmail("root@email.com");
-            usuarioBO.create(usuario, usuario.getClave());
+            usuarioBO.create(usuario, "12345");
         }
     }
 }

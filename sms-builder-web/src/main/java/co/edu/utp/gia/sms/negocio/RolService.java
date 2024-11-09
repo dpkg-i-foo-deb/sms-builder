@@ -5,6 +5,7 @@ import co.edu.utp.gia.sms.entidades.Recurso;
 import co.edu.utp.gia.sms.entidades.Rol;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,5 +55,17 @@ public class RolService extends AbstractGenericService<Rol, String> {
      */
     public List<Rol> findByName(String nombre) {
         return dataProvider.get().stream().filter( rol -> rol.getNombre().equals(nombre) ).toList();
+    }
+
+    /**
+     * Permite obtener los roles que correspondan a los nombres dados
+     * @param roles Listado de nombres de los roles que se desea buscar
+     * @return List de los roles con los nombres dados.
+     */
+    public List<Rol> findByNames(List<String> roles) {
+        if(roles != null && !roles.isEmpty()) {
+            return roles.stream().map(this::findByName).flatMap(List::stream).toList();
+        }
+        return Collections.emptyList();
     }
 }

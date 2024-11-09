@@ -1,5 +1,6 @@
 package co.edu.utp.gia.sms.api;
 
+import co.edu.utp.gia.sms.api.util.UsuarioDTOParser;
 import co.edu.utp.gia.sms.dtos.UsuarioDTO;
 import co.edu.utp.gia.sms.entidades.Usuario;
 import co.edu.utp.gia.sms.negocio.UsuarioService;
@@ -18,19 +19,22 @@ import jakarta.ws.rs.core.Response;
 public class UsuarioApi extends AbstractGenericApi<Usuario,String>{
 
     private UsuarioService service;
+    private UsuarioDTOParser usuarioDTOParser;
 
     public UsuarioApi() {
     }
 
     @Inject
-    public UsuarioApi(UsuarioService service) {
+    public UsuarioApi(UsuarioService service, UsuarioDTOParser usuarioDTOParser) {
         super(service);
         this.service = service;
+        this.usuarioDTOParser = usuarioDTOParser;
     }
 
     @POST
     public Response save(UsuarioDTO entidad) {
-        var usuario = service.create(entidad.usuario(), entidad.clave());
+        var user = usuarioDTOParser.parse(entidad);
+        var usuario = service.create(user, entidad.claveConfirmada());
         return createResponse(usuario);
     }
 
@@ -38,10 +42,11 @@ public class UsuarioApi extends AbstractGenericApi<Usuario,String>{
     @Path("/{id}")
     public Response update(@PathParam("id") String id, UsuarioDTO entidad) {
         findOrThrow(id);
-        if( id != entidad.usuario().getId() ){
+        var usuarioData = usuarioDTOParser.parse(entidad);
+        if( !id.equals(usuarioData.getId()) ){
             throw new WebApplicationException("El usuario a modificar no coincide con los datos dados", Response.Status.BAD_REQUEST);
         }
-        var usuario = service.update(entidad.usuario(), entidad.clave());
+        var usuario = service.update(usuarioData, entidad.clave());
         return Response.ok(usuario,MediaType.APPLICATION_JSON).build();
     }
 

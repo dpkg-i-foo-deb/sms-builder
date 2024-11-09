@@ -6,6 +6,7 @@ import co.edu.utp.gia.sms.entidades.Rol;
 import co.edu.utp.gia.sms.entidades.Usuario;
 import co.edu.utp.gia.sms.exceptions.LogicException;
 import co.edu.utp.gia.sms.seguridad.AuthenticationContext;
+import co.edu.utp.gia.sms.util.PasswordUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -62,10 +63,10 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
         if (usuario == null) {
             throw new LogicException(exceptionMessage.getDatosIncompletos());
         }
-        if (!usuario.getClave().equals(verificacionClave)) {
+        if (!PasswordUtil.verifyPassword(verificacionClave,usuario.getClave())) {
             throw new LogicException(exceptionMessage.getClaveNoCoincide());
         }
-        if (usuario.getRoles() == null) {
+        if (usuario.getRoles() == null || usuario.getRoles().isEmpty()) {
             usuario.setRoles(getRolesPorDefecto());
         }
         if (findByName(usuario.getNombreUsuario()).isPresent()) {
@@ -96,7 +97,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
         if (usuario == null) {
             throw new LogicException(exceptionMessage.getDatosIncompletos());
         }
-        if (!usuario.getClave().equals(verificacionClave)) {
+        if (!PasswordUtil.verifyPassword(verificacionClave,usuario.getClave())) {
             throw new LogicException(exceptionMessage.getClaveNoCoincide());
         }
         update(usuario);
@@ -121,7 +122,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
         var usuario = findByName(nombreUsuario)
                 .orElseThrow( ()->new LogicException(exceptionMessage.getLoginFailMessage()) );
 
-        if (!usuario.getClave().equals(clave)) {
+        if (!PasswordUtil.verifyPassword(clave,usuario.getClave())) {
             usuario.setIntentos(usuario.getIntentos() + 1);
             if (usuario.getIntentos() >= 3) {
                 usuario.setEstado(EstadoUsuario.BLOQUEADO);
