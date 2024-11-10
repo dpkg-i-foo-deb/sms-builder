@@ -4,6 +4,7 @@ import co.edu.utp.gia.sms.entidades.Entidad;
 import co.edu.utp.gia.sms.exceptions.ExceptionMessage;
 import co.edu.utp.gia.sms.negocio.AbstractGenericService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
@@ -42,7 +43,7 @@ public abstract class AbstractGenericApi<E extends Entidad<TipoId>, TipoId> impl
 
 
     @Produces(MediaType.APPLICATION_JSON)
-    public Response save(E entidad) {
+    public Response save(@Valid E entidad) {
         validateBeforeSave(entidad);
         var registro = service.save(entidad);
         if( registro == null ){
@@ -70,7 +71,7 @@ public abstract class AbstractGenericApi<E extends Entidad<TipoId>, TipoId> impl
         }
     }
 
-    public Response update(TipoId id,E entidad) {
+    public Response update(TipoId id,@Valid E entidad) {
         validateBeforeUpdate(entidad);
         var entidadStored = findOrThrow(id);
         if( entidadStored != entidad) {
