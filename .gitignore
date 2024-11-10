@@ -3,6 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .mvn
+*.pem
+*.cer
+
 data/
 
 pom.xml.tag
