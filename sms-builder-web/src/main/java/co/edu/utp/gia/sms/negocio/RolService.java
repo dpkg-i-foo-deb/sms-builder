@@ -3,7 +3,10 @@ package co.edu.utp.gia.sms.negocio;
 import co.edu.utp.gia.sms.db.DB;
 import co.edu.utp.gia.sms.entidades.Recurso;
 import co.edu.utp.gia.sms.entidades.Rol;
+import co.edu.utp.gia.sms.exceptions.LogicException;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +25,9 @@ import java.util.List;
 @ApplicationScoped
 public class RolService extends AbstractGenericService<Rol, String> {
 
+    @Inject
+    RecursoService recursoService;
+
     public RolService() {
         super(DB.root.getProvider(Rol.class));
     }
@@ -34,6 +40,19 @@ public class RolService extends AbstractGenericService<Rol, String> {
     public void addRecurso(String id,Recurso recurso){
         Rol rol = findOrThrow(id);
         rol.getRecursos().add(recurso);
+    }
+
+    /**
+     * Permite adicionar un recurso a un rol
+     * @param id Id del recurso al que se desea adicionar un recurso
+     * @param urlRecurso Recurso a ser adicionado
+     */
+    public void addRecurso(String id,String urlRecurso){
+        var recurso = recursoService.findByUrl(urlRecurso);
+        if(recurso == null) {
+            throw new LogicException(exceptionMessage.getRegistroNoEncontrado(), Response.Status.NOT_FOUND);
+        }
+        addRecurso(id,recurso);
     }
 
     /**

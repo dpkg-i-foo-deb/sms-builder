@@ -15,7 +15,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/topicos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-//@RolesAllowed({ "Usuario", "Administrador" })
+@RolesAllowed({ "Usuario", "Administrador" })
 public class TopicoApi extends AbstractGenericApi<Topico,String> {
 
     private TopicoDTOParser topicoDTOParser;
@@ -37,9 +37,8 @@ public class TopicoApi extends AbstractGenericApi<Topico,String> {
 
     @PUT
     @Path("/{id}")
-    @Override
-    public Response update(@PathParam("id") String id, Topico entidad) {
-        return super.update(id, entidad);
+    public Response update(@PathParam("id") String id, TopicoDTO entidad) {
+        return super.update(id, topicoDTOParser.parse(entidad));
     }
 
     @DELETE

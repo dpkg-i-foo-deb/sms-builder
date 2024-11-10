@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -30,6 +31,7 @@ public class Recurso implements Entidad<String> {
      * de forma única un recurso
      */
     @Setter
+    @NotBlank
     private String id = UUID.randomUUID().toString();
     /**
      * Variable que representa el atributo nombre de la clase. Representa el

@@ -1,6 +1,7 @@
 package co.edu.utp.gia.sms.api;
 
-import co.edu.utp.gia.sms.entidades.Recurso;
+import co.edu.utp.gia.sms.api.util.RolDTOParser;
+import co.edu.utp.gia.sms.dtos.RolDTO;
 import co.edu.utp.gia.sms.entidades.Rol;
 import co.edu.utp.gia.sms.negocio.RolService;
 import jakarta.annotation.security.RolesAllowed;
@@ -19,24 +20,26 @@ import java.util.Collection;
 @RolesAllowed({ "Usuario", "Administrador" })
 public class RolApi extends AbstractGenericApi<Rol,String> {
 
+    private RolDTOParser rolDTOParser;
+
     public RolApi() {
     }
 
     @Inject
-    public RolApi(RolService service) {
+    public RolApi(RolService service, RolDTOParser rolDTOParser) {
         super(service);
+        this.rolDTOParser = rolDTOParser;
     }
 
     @POST
-    public Response save(Rol entidad) {
-        return super.save(entidad);
+    public Response save(RolDTO entidad) {
+        return super.save(rolDTOParser.parse(entidad));
     }
 
     @PUT
     @Path("/{id}")
-    @Override
-    public Response update(@PathParam("id") String id, Rol entidad) {
-        return super.update(id, entidad);
+    public Response update(@PathParam("id") String id, RolDTO entidad) {
+        return super.update(id, rolDTOParser.parse(entidad));
     }
 
     @DELETE
@@ -65,14 +68,14 @@ public class RolApi extends AbstractGenericApi<Rol,String> {
 
     @POST
     @Path("/{id}/recursos")
-    public Response addRecurso(@PathParam("id") String id, Recurso recurso) {
-        ((RolService)service).addRecurso(id,recurso);
+    public Response addRecurso(@PathParam("id") String id, String url) {
+        ((RolService)service).addRecurso(id,url);
         return find(id);
     }
 
     @DELETE
     @Path("/{id}/recursos/{idRecurso}")
-    public Response removeTopico(@PathParam("id") String id, @PathParam("idRecurso") String idRecurso) {
+    public Response removeRecurso(@PathParam("id") String id, @PathParam("idRecurso") String idRecurso) {
         var rol = ((RolService) service).removeRecurso(id,idRecurso);
         return Response.ok(rol,MediaType.APPLICATION_JSON).build();
     }

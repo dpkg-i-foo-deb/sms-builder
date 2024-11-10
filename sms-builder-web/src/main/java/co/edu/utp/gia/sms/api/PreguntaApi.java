@@ -2,7 +2,6 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.api.util.PreguntaDTOParser;
 import co.edu.utp.gia.sms.dtos.PreguntaDTO;
-import co.edu.utp.gia.sms.entidades.Objetivo;
 import co.edu.utp.gia.sms.entidades.Pregunta;
 import co.edu.utp.gia.sms.entidades.Topico;
 import co.edu.utp.gia.sms.negocio.PreguntaService;
@@ -18,7 +17,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/preguntas")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-//@RolesAllowed({ "Usuario", "Administrador" })
+@RolesAllowed({ "Usuario", "Administrador" })
 public class PreguntaApi extends AbstractGenericApi<Pregunta,String> {
 
     private PreguntaService service;
@@ -39,8 +38,7 @@ public class PreguntaApi extends AbstractGenericApi<Pregunta,String> {
     @POST
     public Response save(PreguntaDTO entidad) {
         var pregunta = preguntaDTOParser.parse(entidad);
-        var preguntaStored = service.save(pregunta);
-        return Response.ok(preguntaStored,MediaType.APPLICATION_JSON).build();
+        return super.save(pregunta);
     }
 
     @PUT
