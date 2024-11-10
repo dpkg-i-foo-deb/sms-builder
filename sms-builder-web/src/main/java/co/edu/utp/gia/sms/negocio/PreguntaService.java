@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Clase de negocio encargada de implementar las funciones correspondientes a la
@@ -30,6 +31,32 @@ public class PreguntaService extends AbstractGenericService<Pregunta, String> {
         super(DB.root.getProvider(Pregunta.class));
     }
 
+    @Override
+    public void update(Pregunta entidad) {
+        var objetivos = findOrThrow(entidad.getId()).getObjetivos();
+        super.update(entidad);
+        objetivos.forEach( objetivo ->{
+            objetivo.getPreguntas().remove(entidad);
+            DB.storageManager.store(objetivo.getPreguntas());
+        } );
+        entidad.getObjetivos().forEach( objetivo ->{
+            objetivo.getPreguntas().add(entidad);
+            DB.storageManager.store(objetivo.getPreguntas());
+        } );
+    }
+
+    @Override
+    public Pregunta save(Pregunta entidad) {
+        Objects.requireNonNull(entidad);
+        Objects.requireNonNull(entidad.getObjetivos());
+        var preguntaStored = super.save(entidad);
+        entidad.getObjetivos().forEach( objetivo ->{
+            objetivo.getPreguntas().add(preguntaStored);
+            DB.storageManager.store(objetivo.getPreguntas());
+        } );
+        return preguntaStored;
+    }
+
     /**
      * Permite registrar una pregunta
      *
@@ -43,24 +70,17 @@ public class PreguntaService extends AbstractGenericService<Pregunta, String> {
         if (!objetivos.isEmpty()) {
             final Pregunta nuevapPregunta = new Pregunta(codigo, descripcion, objetivos);
             pregunta = save(nuevapPregunta);
-            objetivos.forEach( objetivo -> objetivo.getPreguntas().add(nuevapPregunta) );
         }
         return pregunta;
     }
 
-    /**
-     * Permite actualizar una pregunta
-     *
-     * @param id          Id de la {@link Pregunta} a ser actualizada
-     * @param codigo      Codigo de la pregunta a actualizar
-     * @param descripcion Descripcion de la pregunta a actulizar
-     */
-    public void update(String id, String codigo, String descripcion) {
-        Pregunta pregunta = findOrThrow(id);
-        if (pregunta != null) {
-            pregunta.setCodigo(codigo);
-            pregunta.setDescripcion(descripcion);
-        }
+    @Override
+    public void delete(Pregunta entidad) {
+        super.delete(entidad);
+        entidad.getObjetivos().forEach( objetivo ->{
+            objetivo.getPreguntas().remove(entidad);
+            DB.storageManager.store(objetivo.getPreguntas());
+        } );
     }
 
     /**

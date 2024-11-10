@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.Response;
 @Path("/objetivos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed({ "Usuario", "Administrador" })
+//@RolesAllowed({ "Usuario", "Administrador" })
 public class ObjetivoApi extends AbstractGenericApi<Objetivo,String> {
 
     public ObjetivoApi() {

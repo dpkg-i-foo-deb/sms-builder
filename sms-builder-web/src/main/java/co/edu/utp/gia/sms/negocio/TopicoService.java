@@ -29,6 +29,13 @@ public class TopicoService extends AbstractGenericService<Topico, String> {
 		super(DB.root.getProvider(Topico.class));
 	}
 
+	@Override
+	public Topico save(Topico entidad) {
+		var record= super.save(entidad);
+		preguntaService.add(record.getPregunta(),record);
+		return record;
+	}
+
 	/**
 	 * Permite adicionar un topico a una pregunta
 	 * 
@@ -38,12 +45,16 @@ public class TopicoService extends AbstractGenericService<Topico, String> {
 	public Topico save(String idPregunta, Topico topico) {
 		Pregunta pregunta = preguntaService.findOrThrow(idPregunta);
 		topico.setPregunta(pregunta);
-		this.save(topico);
-		preguntaService.add(pregunta,topico);
-		return topico;
+		return save(topico);
 	}
 
-    public Collection<String> getTags() {
+	@Override
+	public void delete(Topico entidad) {
+		super.delete(entidad);
+		preguntaService.remove(entidad.getPregunta(),entidad);
+	}
+
+	public Collection<String> getTags() {
 		return ReferenciaGetTags.createQuery().toList();
     }
 }

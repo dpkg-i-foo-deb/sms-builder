@@ -1,5 +1,7 @@
 package co.edu.utp.gia.sms.api;
 
+import co.edu.utp.gia.sms.api.util.TopicoDTOParser;
+import co.edu.utp.gia.sms.dtos.TopicoDTO;
 import co.edu.utp.gia.sms.entidades.Topico;
 import co.edu.utp.gia.sms.negocio.TopicoService;
 import jakarta.annotation.security.RolesAllowed;
@@ -13,20 +15,24 @@ import jakarta.ws.rs.core.Response;
 @Path("/topicos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed({ "Usuario", "Administrador" })
+//@RolesAllowed({ "Usuario", "Administrador" })
 public class TopicoApi extends AbstractGenericApi<Topico,String> {
+
+    private TopicoDTOParser topicoDTOParser;
 
     public TopicoApi() {
     }
 
     @Inject
-    public TopicoApi(TopicoService service) {
+    public TopicoApi(TopicoService service, TopicoDTOParser topicoDTOParser) {
         super(service);
+        this.topicoDTOParser = topicoDTOParser;
     }
 
     @POST
-    public Response save(Topico entidad) {
-        return super.save(entidad);
+    public Response save(TopicoDTO entidad) {
+        var topico = topicoDTOParser.parse(entidad);
+        return super.save(topico);
     }
 
     @PUT

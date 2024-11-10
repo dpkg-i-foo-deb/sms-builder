@@ -1,0 +1,52 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/objetivos
+Accept: application/json
+#Content-Type: */*
+###
+
+
+POST https://localhost:8443/api/objetivos
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+  "codigo": "G01",
+  "descripcion": "Objetigo 01",
+  "preguntas": []
+}
+
+###
+
+GET https://localhost:8443/api/objetivos
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+POST https://localhost:8443/api/objetivos
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "codigo": "G01",
+  "descripcion": "Objetigo 01",
+  "preguntas": []
+}
+
+###

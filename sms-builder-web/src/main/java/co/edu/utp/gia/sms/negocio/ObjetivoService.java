@@ -6,6 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.Objects;
+
 /**
  * Clase de negocio encargada de implementar las funciones correspondientes a la
  * gestion del {@link Objetivo}.
@@ -47,4 +49,30 @@ public class ObjetivoService extends AbstractGenericService<Objetivo, String> {
 		return preguntaService.findOrThrow(id).getObjetivos();
 	}
 
+	/**
+	 * Permite obtener los objetivo relacionados a una pregunta
+	 * @param codigo Codigo del objetivo que se desea obtener
+	 * @return List< Objetivo > relacionados con el código dado
+	 */
+	public List<Objetivo> findByCodigo(String codigo) {
+		Objects.requireNonNull(codigo);
+		return this.dataProvider.get()
+				.stream()
+				.filter( objetivo -> codigo.equals(objetivo.getCodigo()) )
+				.toList();
+	}
+
+	/**
+	 * Permite obtener los objetivo relacionados a una pregunta
+	 * @param codigos Codigos de los objetivos que se desea obtener
+	 * @return List< Objetivo > relacionados con los códigos dado
+	 */
+	public List<Objetivo> findByCodigos(List<String> codigos) {
+		Objects.requireNonNull(codigos);
+		return codigos
+				.stream()
+				.map(this::findByCodigo)
+				.flatMap(List::stream)
+				.toList();
+	}
 }

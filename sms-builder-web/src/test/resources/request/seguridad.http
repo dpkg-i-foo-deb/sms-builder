@@ -24,14 +24,16 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-  "usuario": {
-    "nombreUsuario": "prueba",
-    "clave": "12345",
-    "nombre": "Usuario de Prueba",
-    "email": "usuario@test.com",
-    "pasoActual": null
-  },
-  "clave": "12345"
+  "nombreUsuario": "prueba",
+  "clave": "12345",
+  "nombre": "Usuario de Prueba",
+  "email": "usuario@test.com",
+  "pasoActual": null,
+  "estado": "ACTIVO",
+  "intentos": 0,
+  "roles": [],
+  "id": "2f119690-96fe-4336-aeeb-887def383812",
+  "claveConfirmada": "12345"
 }
 
 ###
@@ -47,7 +49,6 @@ Accept: application/json
 Content-Type: application/json
 
 {
-
   "nombreUsuario": "prueba",
   "clave": "12345",
   "nombre": "Usuario de Prueba",

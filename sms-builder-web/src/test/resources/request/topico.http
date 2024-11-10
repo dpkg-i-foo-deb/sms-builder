@@ -1,0 +1,83 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/topicos
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+
+POST https://localhost:8443/api/topicos
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+  "descripcion": "Tópico 01",
+  "pregunta": "",
+  "tags": ["Tag 1","Tag 2"]
+}
+
+###
+
+GET https://localhost:8443/api/topicos
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+POST https://localhost:8443/api/topicos
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "descripcion": "Tópico 01",
+  "pregunta": "RQ01",
+  "tags": ["Tag 1","Tag 2"]
+}
+
+###
+
+POST https://localhost:8443/api/topicos
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a9487aaa1f7",
+  "descripcion": "Tópico 01",
+  "pregunta": "6028cd33-9fd7-4910-b13a-9a9487aaa1f9",
+  "tags": ["Tag 1"]
+}
+
+###
+
+PUT https://localhost:8443/api/topicos/6028cd33-9fd7-4910-b13a-9a9487aaa1f7
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a9487aaa1f7",
+  "descripcion": "Tópico 01",
+  "pregunta": "RQ01",
+  "tags": ["Tag 1","Tag 2"]
+}
+
+###
+
+DELETE https://localhost:8443/api/topicos/6028cd33-9fd7-4910-b13a-9a9487aaa1f7
+Accept: application/json
+Content-Type: application/json

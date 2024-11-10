@@ -20,6 +20,7 @@ import java.util.UUID;
  * @version 1.0
  * @since 13/06/2019
  */
+@Setter
 @Getter
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -28,34 +29,27 @@ public class Pregunta implements Entidad<String> {
     /**
      * Identificador único de la pregunta
      */
-    @Setter
     private String id = UUID.randomUUID().toString();
     /**
      * Variable que representa el atributo codigo de la clase
      */
-    @Setter
     @NonNull
     private String codigo;
     /**
      * Variable que representa el atributo texto de la clase
      */
-    @Setter
     @NonNull
     private String descripcion;
-
 
     /**
      * Variable que representa los topico de una pregunta
      */
-    @Setter
     private List<Topico> topicos = new ArrayList<>();
 
     /**
      * Variable que representa los objetivo con los que se relaciona una pregunta
      */
-    @Setter
     private List<Objetivo> objetivos = new ArrayList<>();
-
 
     /**
      * Metodo que permite inicializar los elementos de la clase Pregunta
