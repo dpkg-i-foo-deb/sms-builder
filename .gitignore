@@ -2,7 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+.mvn
 data/
 
 pom.xml.tag
@@ -67,8 +67,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /.jpb/
-
-
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
