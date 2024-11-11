@@ -1,18 +1,17 @@
-<div class="flex justify-around items-center h-screen">
-  <div
-    class="hidden lg:block motion-safe:hover:scale-[1.10] transition-all duration-250"
-  >
-    <div class="flex">
-      <img src="grid.jpeg" alt="GRID logo" class="object-scale-down" />
+<div class="p-10 grid min-h-screen items-centersm:grid-rows-2 md:grid-cols-2">
+  <div class="grid grid-rows-[5rem_auto] gap-0">
+    <div>
       <h1 class="text-2xl font-semibold">SMS Builder</h1>
+      <p class="text-xl font-normal">Systematic Mapping Study</p>
     </div>
+    <img src="grid.jpeg" />
   </div>
-  <div class="sm:w-50 md:w-50 lg:w-1/3">
+  <div>
     <form [formGroup]="loginForm">
       <div tuiCardLarge tuiAppearance="floating">
         <h3 class="font-semibold text-xl">Welcome!</h3>
 
-        <div class="row">
+        <div>
           <tui-textfield>
             <label tuiLabel>Username</label>
             <input
@@ -24,7 +23,7 @@
           </tui-textfield>
         </div>
 
-        <div class="row">
+        <div>
           <tui-textfield>
             <label tuiLabel>Password</label>
             <input
@@ -36,11 +35,11 @@
             <tui-icon tuiPassword />
           </tui-textfield>
         </div>
-        <div class="row">
+        <div>
           <button size="m" tuiButton type="button">Login</button>
         </div>
 
-        <div class="row">
+        <div>
           <p class="text-sm text-slate-500">
             Need an account?
             <a class="font-semibold text-blue-600" routerLink="/register"
