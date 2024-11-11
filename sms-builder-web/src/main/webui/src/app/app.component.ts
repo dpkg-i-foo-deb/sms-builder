@@ -1,4 +1,4 @@
-import { TuiRoot } from "@taiga-ui/core";
+import { TuiRoot } from '@taiga-ui/core';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -9,5 +9,5 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'webui';
+  title = 'sms-builder';
 }
