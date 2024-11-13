@@ -17,6 +17,7 @@ import jakarta.ws.rs.core.Response;
 import java.security.InvalidAlgorithmParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -38,17 +39,17 @@ public class SeguridadApi {
     @Path("/login")
     @PermitAll
     public Response login(LoginDTO login) throws InvalidAlgorithmParameterException {
-        var usuario = service.login(login.username(), login.password());
-        if( usuario != null ){
+
+        return service.login(login.username(), login.password()).map(usuario -> {
             String token = Jwt
                     .issuer("https://grid.uniquindio.edu.co")
                     .subject(login.username())
                     .groups(usuario.getRoles().stream().map(Rol::getNombre).collect(Collectors.toSet()))
                     .expiresAt(LocalDateTime.now().plusHours(1).atZone(ZoneId.systemDefault()).toInstant())
-                //.sign(KeyUtils.generateSecretKey(SignatureAlgorithm.HS256));
+                    // .sign(KeyUtils.generateSecretKey(SignatureAlgorithm.HS256));
                     .sign();
-            return Response.ok(usuario,MediaType.APPLICATION_JSON).header("Authorization","Bearer "+token).build();
-        }
-        return Response.status(Response.Status.FORBIDDEN).build();
+            return Response.ok(usuario, MediaType.APPLICATION_JSON).header("Authorization", "Bearer " + token).build();
+        }).orElse(
+                Response.status(Response.Status.FORBIDDEN).build());
     }
 }

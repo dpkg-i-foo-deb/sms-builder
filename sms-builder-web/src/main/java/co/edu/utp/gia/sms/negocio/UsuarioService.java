@@ -43,7 +43,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
      * cuando un {@link Usuario} se registra
      *
      * @return El {@link List} de {@link Rol} a ser asiganados al usuario que se
-     * registra en la aplicacion
+     *         registra en la aplicacion
      */
     private static List<Rol> getRolesPorDefecto() {
         // TODO pendiente obtener el estado de una tabla de parametros de
@@ -63,14 +63,14 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
         if (usuario == null) {
             throw new LogicException(exceptionMessage.getDatosIncompletos());
         }
-        if (!PasswordUtil.verifyPassword(verificacionClave,usuario.getClave())) {
+        if (!PasswordUtil.verifyPassword(verificacionClave, usuario.getClave())) {
             throw new LogicException(exceptionMessage.getClaveNoCoincide());
         }
         if (usuario.getRoles() == null || usuario.getRoles().isEmpty()) {
             usuario.setRoles(getRolesPorDefecto());
         }
         if (findByName(usuario.getNombreUsuario()).isPresent()) {
-			throw new LogicException(exceptionMessage.getRegistroExistente());
+            throw new LogicException(exceptionMessage.getRegistroExistente());
         }
         return super.save(usuario);
     }
@@ -79,11 +79,12 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
      * Permite obtener un usuario a partir de su nombre de usuario
      *
      * @param nombreUsuario Nombre de usuario del Usuario que se desea obtener
-     * @return El usuario con el nombre de usuario dado, o null en caso de que no exista un usuario con el nombre de usuario dado
+     * @return El usuario con el nombre de usuario dado, o null en caso de que no
+     *         exista un usuario con el nombre de usuario dado
      */
     private Optional<Usuario> findByName(String nombreUsuario) {
         return dataProvider.get().stream()
-                .filter( usuario->usuario.getNombreUsuario().equals(nombreUsuario) )
+                .filter(usuario -> usuario.getNombreUsuario().equals(nombreUsuario))
                 .findFirst();
     }
 
@@ -97,7 +98,7 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
         if (usuario == null) {
             throw new LogicException(exceptionMessage.getDatosIncompletos());
         }
-        if (!PasswordUtil.verifyPassword(verificacionClave,usuario.getClave())) {
+        if (!PasswordUtil.verifyPassword(verificacionClave, usuario.getClave())) {
             throw new LogicException(exceptionMessage.getClaveNoCoincide());
         }
         update(usuario);
@@ -112,17 +113,17 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
      * @param nombreUsuario Email del usuario que se desea autenticar
      * @param clave         Clave del usuario que se desea autenticar
      * @return Si los datos de email y clave corresponden con un {@link Usuario}
-     * válido, se retorna dicho {@link Usuario}, en caso contrario
-     * retorna null
+     *         válido, se retorna dicho {@link Usuario}, en caso contrario
+     *         retorna null
      * @throws LogicException Error de autenticacion En caso de
      *                        que no se encuentre el nombre de usuario proporcionado
-     * TODO Es posible que se requiera un logout
+     *                        TODO Es posible que se requiera un logout
      */
-    public Usuario login(String nombreUsuario, String clave) {
+    public Optional<Usuario> login(String nombreUsuario, String clave) {
         var usuario = findByName(nombreUsuario)
-                .orElseThrow( ()->new LogicException(exceptionMessage.getLoginFailMessage()) );
+                .orElseThrow(() -> new LogicException(exceptionMessage.getLoginFailMessage()));
 
-        if (!PasswordUtil.verifyPassword(clave,usuario.getClave())) {
+        if (!PasswordUtil.verifyPassword(clave, usuario.getClave())) {
             usuario.setIntentos(usuario.getIntentos() + 1);
             if (usuario.getIntentos() >= 3) {
                 usuario.setEstado(EstadoUsuario.BLOQUEADO);
@@ -130,6 +131,6 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
             return null;
         }
         usuario.setIntentos(0);
-        return usuario;
+        return Optional.of(usuario);
     }
 }
