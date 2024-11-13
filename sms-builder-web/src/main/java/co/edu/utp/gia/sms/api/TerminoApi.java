@@ -2,9 +2,9 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.entidades.Termino;
 import co.edu.utp.gia.sms.negocio.TerminoService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -15,7 +15,7 @@ import java.util.List;
 @Path("/terminos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed({ "Usuario", "Administrador" })
+//@RolesAllowed({ "Usuario", "Administrador" })
 public class TerminoApi extends AbstractGenericApi<Termino,String> {
 
     public TerminoApi() {
@@ -27,7 +27,7 @@ public class TerminoApi extends AbstractGenericApi<Termino,String> {
     }
 
     @POST
-    public Response save(Termino entidad) {
+    public Response save(@Valid Termino entidad) {
         return super.save(entidad);
     }
 

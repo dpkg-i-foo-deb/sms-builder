@@ -2,7 +2,6 @@ package co.edu.utp.gia.sms.api;
 
 import co.edu.utp.gia.sms.entidades.Recurso;
 import co.edu.utp.gia.sms.negocio.RecursoService;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -16,7 +15,7 @@ import java.util.List;
 @Path("/recursos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-@RolesAllowed({ "Usuario", "Administrador" })
+//@RolesAllowed({ "Usuario", "Administrador" })
 public class RecursoApi extends AbstractGenericApi<Recurso,String> {
 
 

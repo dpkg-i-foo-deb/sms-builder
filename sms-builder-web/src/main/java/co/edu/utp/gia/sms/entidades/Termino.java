@@ -1,5 +1,6 @@
 package co.edu.utp.gia.sms.entidades;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Termino implements Entidad<String> {
      * Variable que representa el atributo id de la clase
      */
     @Setter
+    @NotBlank
     private String id = UUID.randomUUID().toString();
     /**
      * Variable que representa el atributo texto de la clase

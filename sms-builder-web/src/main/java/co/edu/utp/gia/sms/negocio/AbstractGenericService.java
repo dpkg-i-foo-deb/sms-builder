@@ -5,12 +5,10 @@ import co.edu.utp.gia.sms.entidades.Entidad;
 import co.edu.utp.gia.sms.exceptions.ExceptionMessage;
 import co.edu.utp.gia.sms.exceptions.LogicException;
 import co.edu.utp.gia.sms.exceptions.TecnicalException;
-import co.edu.utp.gia.sms.util.ApplicationGeneralProducer;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import jakarta.ws.rs.core.Response;
 import lombok.Getter;
-import org.aeonbits.owner.ConfigFactory;
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.serializer.concurrency.XThreads;
 
@@ -74,10 +72,10 @@ public abstract class AbstractGenericService<E extends Entidad<TipoId>, TipoId> 
         // TODO ejemplo de sincronización para el almacenamiento de datos
         XThreads.executeSynchronized(() -> {
             try {
+                Objects.requireNonNull(entidad.getId(),"El id es requerido");
                 validateBeforeSave(entidad);
                 dataProvider.get().add(entidad);
                 DB.storageManager.store(dataProvider.get());
-
             } catch (Throwable t) {
                 throw new TecnicalException(t);
             }
