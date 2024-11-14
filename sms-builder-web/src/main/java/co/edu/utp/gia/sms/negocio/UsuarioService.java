@@ -9,6 +9,7 @@ import co.edu.utp.gia.sms.seguridad.AuthenticationContext;
 import co.edu.utp.gia.sms.util.PasswordUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class UsuarioService extends AbstractGenericService<Usuario, String> {
 
+    @Inject
+    ProcesoService procesoService;
     @Inject
     private AuthenticationContext autenticationContext;
 
@@ -130,6 +133,14 @@ public class UsuarioService extends AbstractGenericService<Usuario, String> {
             return null;
         }
         usuario.setIntentos(0);
+        return usuario;
+    }
+
+    public Usuario updatePasoActual(@NotBlank String id, @NotBlank String idPaso) {
+        var usuario = findOrThrow(id);
+        var paso = procesoService.findOrThrow(idPaso);
+        usuario.setPasoActual(paso);
+        update(usuario);
         return usuario;
     }
 }

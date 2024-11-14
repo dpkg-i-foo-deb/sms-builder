@@ -7,6 +7,7 @@ import co.edu.utp.gia.sms.negocio.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -66,6 +67,19 @@ public class UsuarioApi extends AbstractGenericApi<Usuario,String>{
     @GET
     public Response get() {
         return super.get();
+    }
+
+    @GET
+    @Path("/{id}/pasoActual")
+    public Response getPasoActual(@PathParam("id") String id) {
+        var paso = service.findOrThrow(id).getPasoActual();
+        return Response.ok(paso,MediaType.APPLICATION_JSON).build();
+    }
+
+    @PATCH
+    @Path("/{id}/pasoActual")
+    public Response updatePasoActual(@PathParam("id") @NotBlank String id,@NotBlank String idPaso) {
+        return Response.ok(service.updatePasoActual(id,idPaso)).build();
     }
 
 }

@@ -60,6 +60,10 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
         super.delete(referencia);
     }
 
+    public void save(List<Referencia> referencias) {
+        save(referencias,revisionService.getPasoActual().getId());
+    }
+
     public void save(List<Referencia> referencias,  String idPasoProceso) {
         referencias.forEach(referencia -> save(referencia,idPasoProceso));
     }

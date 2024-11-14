@@ -1,0 +1,55 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/revision
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+
+
+GET https://localhost:8443/api/revision
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+
+PUT https://localhost:8443/api/revision
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombre": "Nombre de la revision",
+  "descripcion": "Descripción de la revisión"
+}
+
+###
+
+GET https://localhost:8443/api/revision/pasoActual
+Accept: application/json
+Content-Type: */*
+#Authorization: {{auth_token}}
+###
+
+PATCH https://localhost:8443/api/revision/pasoActual
+Accept: application/json
+Content-Type: */*
+#Authorization: {{auth_token}}
+
+{
+  "id": "606308d5-97ba-44ea-ad41-20384136053c"
+}
+###

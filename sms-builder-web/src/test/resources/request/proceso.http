@@ -1,0 +1,81 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+
+POST https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+
+}
+
+###
+
+GET https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+POST https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "codigo": "RQ02",
+  "descripcion": "Pregunta 01",
+  "objetivos": ["G01"]
+}
+
+###
+
+POST https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a9487aaa1f9",
+  "codigo": "RQ01",
+  "descripcion": "Pregunta 01",
+  "objetivos": ["G01"]
+}
+
+###
+
+PUT https://localhost:8443/api/pasosproceso/6028cd33-9fd7-4910-b13a-9a9487aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a9487aaa1f9",
+  "codigo": "RQ01",
+  "descripcion": "Pregunta 01",
+  "objetivos": ["G01"]
+}
+
+###
+
+DELETE https://localhost:8443/api/pasosproceso/6028cd33-9fd7-4910-b13a-9a9487aaa1f9
+Accept: application/json
+Content-Type: application/json

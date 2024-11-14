@@ -6,6 +6,7 @@ import co.edu.utp.gia.sms.entidades.TipoFuente;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,24 @@ public class FuenteService extends AbstractGenericService<Fuente, String> {
 
     public FuenteService() {
         super(DB.root.getProvider(Fuente.class));
+    }
+
+    @Override
+    public Fuente save(Fuente entidad) {
+        Objects.requireNonNull(entidad);
+        if( entidad.getTipo() == null ){
+            entidad.setTipo(TipoFuente.BASE_DATOS);
+        }
+        return super.save(entidad);
+    }
+
+    @Override
+    public void update(Fuente entidad) {
+        Objects.requireNonNull(entidad);
+        if( entidad.getTipo() == null ){
+            entidad.setTipo(TipoFuente.BASE_DATOS);
+        }
+        super.update(entidad);
     }
 
     /**
