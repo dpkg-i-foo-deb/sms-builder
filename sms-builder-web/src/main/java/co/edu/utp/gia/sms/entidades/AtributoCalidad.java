@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Objects;
@@ -28,6 +29,7 @@ public class AtributoCalidad implements Entidad<String> {
      * Variable que representa el atributo id de la clase
      */
     @Setter
+    @NotNull
     private String id = UUID.randomUUID().toString();
 
     /**

@@ -5,6 +5,7 @@ import co.edu.utp.gia.sms.negocio.AtributoCalidadService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,14 +27,14 @@ public class AtributoCalidadApi extends AbstractGenericApi<AtributoCalidad,Strin
 
     @POST
     @Override
-    public Response save(AtributoCalidad entidad) {
+    public Response save(@Valid AtributoCalidad entidad) {
         return super.save(entidad);
     }
 
     @PUT
     @Path("/{id}")
     @Override
-    public Response update(@PathParam("id") String id, AtributoCalidad entidad) {
+    public Response update(@PathParam("id") String id,@Valid AtributoCalidad entidad) {
         return super.update(id, entidad);
     }
 

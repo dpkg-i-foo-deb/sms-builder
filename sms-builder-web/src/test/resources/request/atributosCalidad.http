@@ -1,4 +1,31 @@
-POST http://localhost:8080/api/atributoscalidad
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+    client.global.set("auth_token", response.headers.valueOf("Authorization"));
+    client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+POST https://localhost:8443/api/atributoscalidad
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "descripcion": "Proceso",
+  "objetivo": true
+}
+
+###
+
+POST https://localhost:8443/api/atributoscalidad
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -7,7 +34,38 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/api/atributoscalidad
+
+POST https://localhost:8443/api/atributoscalidad
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9aaaa7aaa1f9",
+  "descripcion": "Proceso",
+  "objetivo": true
+}
+
+###
+
+PUT https://localhost:8443/api/atributoscalidad/6028cd33-9fd7-4910-b13a-9aaaa7aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9aaaa7aaa1f9",
+  "descripcion": "Metodología Formal",
+  "objetivo": true
+}
+
+###
+
+DELETE https://localhost:8443/api/atributoscalidad/6028cd33-9fd7-4910-b13a-9aaaa7aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+###
+
+GET https://localhost:8443/api/atributoscalidad
 Accept: application/json
 Content-Type: */*
 
