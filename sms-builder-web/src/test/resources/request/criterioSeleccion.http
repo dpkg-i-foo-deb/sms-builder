@@ -1,0 +1,82 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/criteriosseleccion
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+
+POST https://localhost:8443/api/criteriosseleccion
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+  "nombre": "Tipo de publicación",
+  "descripcion": "Artículos primarios",
+  "paraExclusion": false
+}
+
+###
+
+GET https://localhost:8443/api/criteriosseleccion
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+POST https://localhost:8443/api/criteriosseleccion
+Accept: application/json
+Content-Type: application/json
+
+{
+  "nombre": "Tipo de publicación",
+  "descripcion": "Artículos primarios",
+  "paraExclusion": false
+}
+
+###
+
+POST https://localhost:8443/api/criteriosseleccion
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a94a7aaa1f9",
+  "nombre": "Tipo de publicación",
+  "descripcion": "Artículos primarios",
+  "paraExclusion": false
+}
+
+###
+
+PUT https://localhost:8443/api/criteriosseleccion/6028cd33-9fd7-4910-b13a-9a94a7aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a94a7aaa1f9",
+  "nombre": "Tipo de publicación",
+  "descripcion": "Artículos primarios o mapeos",
+  "paraExclusion": false
+}
+
+###
+
+DELETE https://localhost:8443/api/criteriosseleccion/6028cd33-9fd7-4910-b13a-9a94a7aaa1f9
+Accept: application/json
+Content-Type: application/json

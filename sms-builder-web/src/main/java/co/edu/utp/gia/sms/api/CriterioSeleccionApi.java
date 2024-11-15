@@ -5,6 +5,7 @@ import co.edu.utp.gia.sms.negocio.CriterioSeleccionService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,14 +27,14 @@ public class CriterioSeleccionApi extends AbstractGenericApi<CriterioSeleccion,S
 
     @POST
     @Override
-    public Response save(CriterioSeleccion entidad) {
+    public Response save(@Valid CriterioSeleccion entidad) {
         return super.save(entidad);
     }
 
     @PUT
     @Path("/{id}")
     @Override
-    public Response update(@PathParam("id") String id, CriterioSeleccion entidad) {
+    public Response update(@PathParam("id") String id,@Valid CriterioSeleccion entidad) {
         return super.update(id, entidad);
     }
 
