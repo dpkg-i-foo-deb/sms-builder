@@ -1,10 +1,13 @@
 package co.edu.utp.gia.sms.api;
 
+import co.edu.utp.gia.sms.api.util.CadenaBusquedaDTOParser;
+import co.edu.utp.gia.sms.dtos.CadenaBusquedaDTO;
 import co.edu.utp.gia.sms.entidades.CadenaBusqueda;
 import co.edu.utp.gia.sms.negocio.CadenaBusquedaService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -16,25 +19,26 @@ import jakarta.ws.rs.core.Response;
 @RolesAllowed({ "Usuario", "Administrador" })
 public class CadenaBusquedaApi extends AbstractGenericApi<CadenaBusqueda,String> {
 
+    private CadenaBusquedaDTOParser cadenaBusquedaDTOParser;
+
     public CadenaBusquedaApi() {
     }
 
     @Inject
-    public CadenaBusquedaApi(CadenaBusquedaService service) {
+    public CadenaBusquedaApi(CadenaBusquedaService service, CadenaBusquedaDTOParser cadenaBusquedaDTOParser) {
         super(service);
+        this.cadenaBusquedaDTOParser = cadenaBusquedaDTOParser;
     }
 
     @POST
-    @Override
-    public Response save(CadenaBusqueda entidad) {
-        return super.save(entidad);
+    public Response save(@Valid CadenaBusquedaDTO entidad) {
+        return super.save(cadenaBusquedaDTOParser.parse(entidad));
     }
 
     @PUT
     @Path("/{id}")
-    @Override
-    public Response update(@PathParam("id") String id, CadenaBusqueda entidad) {
-        return super.update(id, entidad);
+    public Response update(@PathParam("id") String id, @Valid CadenaBusquedaDTO entidad) {
+        return super.update(id, cadenaBusquedaDTOParser.parse(entidad));
     }
 
     @DELETE
