@@ -20,7 +20,6 @@ public class PasoProcesoDTOParser implements ParseApiUtil<PasoProceso, PasoProce
     public PasoProceso parse(PasoProcesoDTO pasoProcesoDTO) {
         PasoProceso paso = new PasoProceso();
         paso.setId( pasoProcesoDTO.id() );
-        paso.setOrden( pasoProcesoDTO.orden() );
         paso.setPaso( pasoService.findOrThrow( pasoProcesoDTO.paso() ) );
         return paso;
     }

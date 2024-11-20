@@ -11,8 +11,11 @@ import lombok.extern.java.Log;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
 /**
  * Clase de negocio encargada de implementar las funciones correspondientes a la
@@ -201,5 +204,32 @@ public class EvaluacionCalidadService extends AbstractGenericService<EvaluacionC
 	 */
 	private List<Float> obtenerSCIs() {
 		return ReferenciaGetAllSCI.createQuery(revisionService.getPasoActual()::getReferencias).toList();
+	}
+
+	private Stream getEvaluacionesFromPasoStream() {
+		return revisionService.get().getReferencias().stream()
+				.filter(referencia -> referencia.getEvaluacionCalidad()!=null)
+				.map(Referencia::getEvaluacionCalidad)
+				.flatMap(List::stream);
+	}
+
+	@Override
+	public Collection<EvaluacionCalidad> get() {
+		return getEvaluacionesFromPasoStream().toList();
+	}
+
+	@Override
+	public Optional<EvaluacionCalidad> find(String id) {
+		return super.find(this::get,id);
+	}
+
+	@Override
+	public EvaluacionCalidad findOrThrow(String id) {
+		return super.findOrThrow(this::get,id);
+	}
+
+	@Override
+	public int count() {
+		return (int) getEvaluacionesFromPasoStream().count();
 	}
 }

@@ -78,7 +78,7 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
 
     public List<ReferenciaDTO> findAll() {
         return get().stream()
-                .sorted(Comparator.comparing(Referencia::getNombre))
+//                .sorted(Comparator.comparing(Referencia::getNombre))
                 .map(r -> new ReferenciaDTO(r, 0)).toList();
     }
 

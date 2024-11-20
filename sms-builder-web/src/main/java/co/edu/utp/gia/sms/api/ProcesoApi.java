@@ -44,7 +44,7 @@ public class ProcesoApi extends AbstractGenericApi<PasoProceso,String> {
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") String id, PasoProcesoDTO entidad) {
+    public Response update(@PathParam("id") String id, @Valid PasoProcesoDTO entidad) {
         return super.update(id, pasoProcesoDTOParser.parse(entidad));
     }
 

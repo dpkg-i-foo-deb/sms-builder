@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.UUID;
 
-public record PasoProcesoDTO(String id, @NotNull Integer orden,@NotBlank String paso) {
+public record PasoProcesoDTO(@NotNull String id, @NotBlank String paso) {
     public PasoProcesoDTO {
         id = Objects.requireNonNullElse(id, UUID.randomUUID().toString());
     }
