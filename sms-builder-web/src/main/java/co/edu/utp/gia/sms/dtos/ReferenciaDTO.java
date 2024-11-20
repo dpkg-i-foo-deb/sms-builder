@@ -262,12 +262,12 @@ public class ReferenciaDTO implements Serializable {
     }
 
     public String getEvaluacion(){
-        return evaluaciones.stream()
+        return evaluaciones != null ? evaluaciones.stream()
                 .filter( evaluacion->evaluacion.getAtributoCalidad().equals(atributoCalidad) )
                 .map(EvaluacionCalidad::getEvaluacionCualitativa)
                 .map(EvaluacionCualitativa::toString)
                 .findFirst()
-                .orElse(null);
+                .orElse(null) : null;
     }
 
     public List<String> getTags() {

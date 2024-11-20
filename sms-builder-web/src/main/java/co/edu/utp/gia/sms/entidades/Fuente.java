@@ -2,6 +2,7 @@ package co.edu.utp.gia.sms.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.Objects;
@@ -35,6 +36,7 @@ public class Fuente implements Entidad<String> {
      * Nombre de la fuente
      */
     @Setter @NonNull
+    @NotBlank
     private String nombre;
 
     /**

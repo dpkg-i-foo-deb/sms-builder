@@ -5,7 +5,7 @@ SMS-Builder is a software tool building to help researchers follow a SMS buildin
 SMS-Builder was build using:
 
 - Maria DB for data storage
-- Java 11 as the programming language
+- Java 21 as the programming language
 - Java Server Faces for building the GUI.
 - Maven as a tool for supports project structuring and dependency management
 - Git for version control and change management
@@ -28,6 +28,9 @@ or
 $ sh build-image.sh
 ```
 # RUN
+```
+mvn compile quarkus:dev
+```
 ```
 $ docker run -d -p 8080:8080 -p 4848:4848 -p 3306:3306 --name sms-builder-web griduq/sms-builder-web 
 ```

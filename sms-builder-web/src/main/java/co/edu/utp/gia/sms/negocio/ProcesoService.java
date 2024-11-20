@@ -43,6 +43,13 @@ public class ProcesoService extends AbstractGenericService<PasoProceso, String> 
     }
 
     @Override
+    public void update(PasoProceso entidad) {
+        var paso = findOrThrow( entidad.getId() );
+        entidad.setOrden(paso.getOrden());
+        super.update(entidad);
+    }
+
+    @Override
     public void delete(PasoProceso entidad) {
         super.delete(entidad);
         checkOrder();

@@ -1,0 +1,91 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/cadenasbusqueda
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+
+POST https://localhost:8443/api/cadenasbusqueda
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+  "fuente": "30c9a7a5-411e-445f-a029-5001a466bfce",
+  "consulta": "keyword1 or sinonimo1 or sinonimo2",
+  "fechaConsulta": "2024-11-15",
+  "resultadoPreliminar": 456,
+  "resultadoFinal": 34
+}
+
+###
+
+GET https://localhost:8443/api/cadenasbusqueda
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+POST https://localhost:8443/api/cadenasbusqueda
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "fuente": "30c9a7a5-411e-445f-a029-5001a466bfce",
+  "consulta": "keyword1 or sinonimo1 or sinonimo2",
+  "fechaConsulta": "2024-11-15",
+  "resultadoPreliminar": 456,
+  "resultadoFinal": 34
+}
+
+###
+
+POST https://localhost:8443/api/cadenasbusqueda
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a9487ddd1f7",
+  "fuente": "30c9a7a5-411e-445f-a029-5001a466bfce",
+  "consulta": "keyword1 or sinonimo1 or sinonimo2",
+  "fechaConsulta": "2024-11-15",
+  "resultadoPreliminar": 456,
+  "resultadoFinal": 34
+}
+
+###
+
+PUT https://localhost:8443/api/cadenasbusqueda/6028cd33-9fd7-4910-b13a-9a9487ddd1f7
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-b13a-9a9487ddd1f7",
+  "fuente": "30c9a7a5-411e-445f-a029-5001a466bfce",
+  "consulta": "keyword1 or sinonimo1 or sinonimo2",
+  "fechaConsulta": "2024-11-15",
+  "resultadoPreliminar": 556,
+  "resultadoFinal": 43
+}
+
+###
+
+DELETE https://localhost:8443/api/cadenasbusqueda/6028cd33-9fd7-4910-b13a-9a9487ddd1f7
+Accept: application/json
+Content-Type: application/json

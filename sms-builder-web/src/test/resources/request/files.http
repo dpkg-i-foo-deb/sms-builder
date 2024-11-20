@@ -1,0 +1,72 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/files
+Accept: application/json
+Content-Type: application/json
+###
+
+
+### Send a form with the text and file fields
+POST https://localhost:8443/api/files
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: {{auth_token}}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="files.zip"
+Content-Type: application/json
+
+< ./../sms-builder.zip
+--WebAppBoundary--
+
+
+### Send a form with the text and file fields
+POST https://localhost:8443/api/files
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="files.zip"
+Content-Type: application/json
+
+< ./../sms-builder.zip
+--WebAppBoundary--
+
+
+### Send a form with the text and file fields
+POST https://localhost:8443/api/files/166cdc12-6976-4dee-9969-a35a19d8840c/6028cd33-9fd7-4910-b13a-9a9487aaaaf7/RIS
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: {{auth_token}}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="files.ris"
+Content-Type: application/json
+
+< ./../acm_3_mendeleyris.ris
+--WebAppBoundary--
+
+
+### Send a form with the text and file fields
+POST https://localhost:8443/api/files/166cdc12-6976-4dee-9969-a35a19d8840c/6028cd33-9fd7-4910-b13a-9a9487aaaaf7/RIS
+Accept: application/json
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="files.ris"
+Content-Type: application/json
+
+< ./../acm_3_mendeleyris.ris
+--WebAppBoundary--

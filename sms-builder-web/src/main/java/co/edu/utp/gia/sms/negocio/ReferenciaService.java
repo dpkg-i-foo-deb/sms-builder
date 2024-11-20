@@ -60,6 +60,10 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
         super.delete(referencia);
     }
 
+    public void save(List<Referencia> referencias) {
+        save(referencias,revisionService.getPasoActual().getId());
+    }
+
     public void save(List<Referencia> referencias,  String idPasoProceso) {
         referencias.forEach(referencia -> save(referencia,idPasoProceso));
     }
@@ -74,7 +78,7 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
 
     public List<ReferenciaDTO> findAll() {
         return get().stream()
-                .sorted(Comparator.comparing(Referencia::getNombre))
+//                .sorted(Comparator.comparing(Referencia::getNombre))
                 .map(r -> new ReferenciaDTO(r, 0)).toList();
     }
 

@@ -1,5 +1,7 @@
 package co.edu.utp.gia.sms.api;
 
+import co.edu.utp.gia.sms.api.util.PasoProcesoDTOParser;
+import co.edu.utp.gia.sms.dtos.PasoProcesoDTO;
 import co.edu.utp.gia.sms.dtos.ReferenciaDTO;
 import co.edu.utp.gia.sms.entidades.EvaluacionCualitativa;
 import co.edu.utp.gia.sms.entidades.PasoProceso;
@@ -8,6 +10,7 @@ import co.edu.utp.gia.sms.negocio.ReferenciaService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -22,27 +25,27 @@ import java.util.List;
 public class ProcesoApi extends AbstractGenericApi<PasoProceso,String> {
 
     private ReferenciaService referenciaService;
+    private PasoProcesoDTOParser pasoProcesoDTOParser;
 
     public ProcesoApi() {
     }
 
     @Inject
-    public ProcesoApi(ProcesoService service,ReferenciaService referenciaService) {
+    public ProcesoApi(ProcesoService service, ReferenciaService referenciaService, PasoProcesoDTOParser pasoProcesoDTOParser) {
         super(service);
         this.referenciaService = referenciaService;
+        this.pasoProcesoDTOParser = pasoProcesoDTOParser;
     }
 
     @POST
-    @Override
-    public Response save(PasoProceso entidad) {
-        return super.save(entidad);
+    public Response save(@Valid PasoProcesoDTO entidad) {
+        return super.save(pasoProcesoDTOParser.parse(entidad));
     }
 
     @PUT
     @Path("/{id}")
-    @Override
-    public Response update(@PathParam("id") String id, PasoProceso entidad) {
-        return super.update(id, entidad);
+    public Response update(@PathParam("id") String id, @Valid PasoProcesoDTO entidad) {
+        return super.update(id, pasoProcesoDTOParser.parse(entidad));
     }
 
     @DELETE

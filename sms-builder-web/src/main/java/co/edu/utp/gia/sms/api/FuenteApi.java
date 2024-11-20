@@ -6,6 +6,7 @@ import co.edu.utp.gia.sms.negocio.FuenteService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -13,7 +14,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.function.Predicate;
 
 @ApplicationScoped
-@Path("/fuestes")
+@Path("/fuentes")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @RolesAllowed({ "Usuario", "Administrador" })
@@ -29,14 +30,14 @@ public class FuenteApi extends AbstractGenericApi<Fuente,String> {
 
     @POST
     @Override
-    public Response save(Fuente entidad) {
+    public Response save(@Valid Fuente entidad) {
         return super.save(entidad);
     }
 
     @PUT
     @Path("/{id}")
     @Override
-    public Response update(@PathParam("id") String id, Fuente entidad) {
+    public Response update(@PathParam("id") String id,@Valid Fuente entidad) {
         return super.update(id, entidad);
     }
 

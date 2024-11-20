@@ -1,0 +1,82 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+# paso debe contener el id del paso asociado al paso del proceso.
+
+POST https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+  "paso": "124a1e1b-e4d2-4096-804d-e6963f922f4c"
+}
+
+###
+
+GET https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+# paso debe contener el id del paso asociado al paso del proceso.
+
+POST https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "paso": "124a1e1b-e4d2-4096-804d-e6963f922f4c"
+}
+
+###
+
+# paso debe contener el id del paso asociado al paso del proceso.
+
+POST https://localhost:8443/api/pasosproceso
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-bb3a-9a9487aaa1f9",
+  "paso": "124a1e1b-e4d2-4096-804d-e6963f922f4c"
+}
+
+###
+
+# paso debe contener el id del paso asociado al paso del proceso.
+
+PUT https://localhost:8443/api/pasosproceso/6028cd33-9fd7-4910-bb3a-9a9487aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-9fd7-4910-bb3a-9a9487aaa1f9",
+  "paso": "3aaad52c-6fe1-442a-8b67-35d079098e68"
+}
+
+###
+
+DELETE https://localhost:8443/api/pasosproceso/6028cd33-9fd7-4910-bb3a-9a9487aaa1f9
+Accept: application/json
+Content-Type: application/json
