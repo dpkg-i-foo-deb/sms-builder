@@ -12,8 +12,10 @@ import jakarta.inject.Inject;
 import lombok.extern.java.Log;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 // TODO Pendiente la indicación de las revistas con mayor frecuencia dentro del SMS.
@@ -71,6 +73,20 @@ public class ReferenciaService extends AbstractGenericService<Referencia, String
     public List<ReferenciaDTO> findByPasoSeleccionado() {
         return findByPaso( revisionService.getPasoActual() );
     }
+
+    public List<ReferenciaDTO> findByPasoAnterior() {
+        Function<Integer,Predicate<PasoProceso>> filtro = (orden)-> paso-> paso.getOrden().equals(orden);
+        var pasos = revisionService.get().getPasosProceso();
+        var pasoActual = revisionService.getPasoActual();
+        if (pasoActual != null) {
+            int orden = pasoActual.getOrden();
+            int ordenAnterior = orden -1;
+            var pasoAnterior = pasos.stream().filter(filtro.apply(ordenAnterior)).findAny().orElse(null);
+            return pasoAnterior != null ? findByPaso( pasoAnterior ) : Collections.emptyList();
+        }
+        return Collections.emptyList();
+    }
+
     public List<ReferenciaDTO> findByPaso(String idPaso) {
         PasoProceso paso = procesoService.findOrThrow(idPaso);
         return findByPaso(paso);

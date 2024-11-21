@@ -67,6 +67,7 @@ public class ReferenciaApi extends AbstractGenericApi<Referencia,String> {
     @GET
     public Response get(@QueryParam("paso") String paso,@QueryParam("evaluacion") boolean evaluacion) {
         List<ReferenciaDTO> referencias = switch (paso) {
+            case "-2" -> ((ReferenciaService) service).findByPasoAnterior();
             case "-1" -> ((ReferenciaService) service).findByPasoSeleccionado();
             case null -> ((ReferenciaService) service).findAll();
             default -> ((ReferenciaService) service).findByPaso(paso);

@@ -1,10 +1,13 @@
 package co.edu.utp.gia.sms.api;
 
+import co.edu.utp.gia.sms.api.util.MetadatoDTOParser;
+import co.edu.utp.gia.sms.dtos.MetadatoDTO;
 import co.edu.utp.gia.sms.entidades.Metadato;
 import co.edu.utp.gia.sms.negocio.MetadatoServices;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -16,25 +19,26 @@ import jakarta.ws.rs.core.Response;
 @RolesAllowed({ "Usuario", "Administrador" })
 public class MetadatoApi extends AbstractGenericApi<Metadato,String> {
 
+    private MetadatoDTOParser metadatoDTOParser;
+
     public MetadatoApi() {
     }
 
     @Inject
-    public MetadatoApi(MetadatoServices service) {
+    public MetadatoApi(MetadatoServices service, MetadatoDTOParser metadatoDTOParser) {
         super(service);
+        this.metadatoDTOParser = metadatoDTOParser;
     }
 
     @POST
-    @Override
-    public Response save(Metadato entidad) {
-        return super.save(entidad);
+    public Response save(@Valid MetadatoDTO entidad) {
+        return super.save(metadatoDTOParser.parse(entidad));
     }
 
     @PUT
     @Path("/{id}")
-    @Override
-    public Response update(@PathParam("id") String id, Metadato entidad) {
-        return super.update(id, entidad);
+    public Response update(@PathParam("id") String id, @Valid MetadatoDTO entidad) {
+        return super.update(id, metadatoDTOParser.parse(entidad));
     }
 
     @DELETE
@@ -52,9 +56,11 @@ public class MetadatoApi extends AbstractGenericApi<Metadato,String> {
     }
 
     @GET
-    @Override
-    public Response get() {
-        return super.get();
+    public Response get(@QueryParam("referencia") String referencia) {
+        if( referencia == null || referencia.isEmpty()) {
+            return super.get();
+        } else {
+            return Response.ok(((MetadatoServices)service).get(referencia),MediaType.APPLICATION_JSON).build();
+        }
     }
-
 }
