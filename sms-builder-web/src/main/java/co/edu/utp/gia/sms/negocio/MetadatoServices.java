@@ -2,10 +2,14 @@ package co.edu.utp.gia.sms.negocio;
 
 import co.edu.utp.gia.sms.db.DB;
 import co.edu.utp.gia.sms.entidades.Metadato;
+import co.edu.utp.gia.sms.entidades.Referencia;
 import co.edu.utp.gia.sms.entidades.TipoMetadato;
 import co.edu.utp.gia.sms.query.metadato.MetadatoGetByTipoFuente;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Clase de negocio encargada de implementar las funciones correspondientes a la
@@ -21,7 +25,12 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class MetadatoServices extends AbstractGenericService<Metadato, String> {
     @Inject
-    private FuenteService fuenteService;
+    FuenteService fuenteService;
+    @Inject
+    RevisionService revisionService;
+    @Inject
+    ReferenciaService referenciaService;
+
     public MetadatoServices() {
         super();
     }
@@ -55,8 +64,20 @@ public class MetadatoServices extends AbstractGenericService<Metadato, String> {
         super.delete(entidad.getReferencia()::getMetadatos,entidad);
     }
 
+    @Override
+    public Collection<Metadato> get() {
+        return revisionService.get().getReferencias().stream()
+                .filter(referencia -> referencia.getMetadatos()!=null)
+                .map( Referencia::getMetadatos )
+                .flatMap(List::stream)
+                .toList();
+    }
 
-//    public void delete(String idReferencia,String idMetadato) {
+    public Collection<Metadato> get(String idReferencia) {
+        return referenciaService.findOrThrow(idReferencia).getMetadatos();
+    }
+
+    //    public void delete(String idReferencia,String idMetadato) {
 //        var referencia = referenciaService.findOrThrow(idReferencia);
 //        var metadato = findOrThrow(idMetadato);
 //        delete(referencia::getMetadatos,metadato);

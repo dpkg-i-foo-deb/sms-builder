@@ -1,0 +1,99 @@
+POST https://localhost:8443/api/seguridad/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "12345"
+}
+
+> {%
+     client.global.set("auth_token", response.headers.valueOf("Authorization"));
+     client.log("LOG "+response.headers.valueOf("Authorization"));
+%}
+###
+
+GET https://localhost:8443/api/metadatos
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+GET https://localhost:8443/api/metadatos?referencia=d864232a-7200-4b51-9531-2348ef6a76d2
+Accept: application/json
+Content-Type: */*
+#Content-Type: */*
+###
+
+# referencia: id de la referencia que se desea evaluar
+
+POST https://localhost:8443/api/metadatos
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "id": null,
+  "referencia": "d864232a-7200-4b51-9531-2348ef6a76d2",
+  "identifier": "KEYWORD",
+  "value": "Palabra clave"
+}
+
+###
+
+GET https://localhost:8443/api/metadatos
+Accept: application/json
+Content-Type: */*
+Authorization: {{auth_token}}
+###
+
+# referencia: id de la referencia que se desea evaluar
+
+POST https://localhost:8443/api/metadatos
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": null,
+  "referencia": "d864232a-7200-4b51-9531-2348ef6a76d2",
+  "identifier": "KEYWORD",
+  "value": "Palabra clave"
+}
+
+###
+
+# referencia: id de la referencia que se desea evaluar
+
+POST https://localhost:8443/api/metadatos
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-ffdf-4aa0-b13a-9a9487aaa1f9",
+  "referencia": "d864232a-7200-4b51-9531-2348ef6a76d2",
+  "identifier": "KEYWORD",
+  "value": "Palabra clave"
+}
+
+###
+
+# referencia: id de la referencia que se desea evaluar
+
+PUT https://localhost:8443/api/metadatos/6028cd33-ffdf-4aa0-b13a-9a9487aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "6028cd33-ffdf-4aa0-b13a-9a9487aaa1f9",
+  "referencia": "d864232a-7200-4b51-9531-2348ef6a76d2",
+  "identifier": "KEYWORD",
+  "value": "key word"
+}
+
+###
+
+DELETE https://localhost:8443/api/metadatos/6028cd33-ffdf-4aa0-b13a-9a9487aaa1f9
+Accept: application/json
+Content-Type: application/json
+
+###
+
